@@ -19,8 +19,13 @@ const StreamPage = () => {
   const [chatMessages, setChatMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const chatSocketRef = useRef(null);
+  const chatEndRef = useRef(null);
 
-  // Load livestream URL and upcoming game
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatMessages]);
+
+
   useEffect(() => {
     fetch('http://localhost:8000/live_url')
       .then((res) => res.text())
@@ -48,7 +53,6 @@ const StreamPage = () => {
       .catch(err => console.error('Failed to load upcoming game info:', err));
   }, []);
 
-  // Score WebSocket
   useEffect(() => {
     const scoreSocket = new WebSocket('ws://localhost:8000/ws/score');
     scoreSocket.onopen = () => setStatus('Connected to live scoreboard');
@@ -61,7 +65,6 @@ const StreamPage = () => {
     return () => scoreSocket.close();
   }, []);
 
-  // Chat WebSocket
   useEffect(() => {
     chatSocketRef.current = new WebSocket('ws://localhost:8000/ws/chat');
     chatSocketRef.current.onmessage = (event) => {
@@ -84,8 +87,7 @@ const StreamPage = () => {
     }
   };
 
-  const displayName =
-    user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
+  const displayName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
 
   return (
     <>
@@ -110,7 +112,7 @@ const StreamPage = () => {
       </nav>
 
       <div className="stream-container">
-        {/* TV-style Score Bug */}
+        {/* Score Bug */}
         <div className="score-bug">
           <div className="team">
             <span className="team-name">{score.home_name}</span>
@@ -126,7 +128,7 @@ const StreamPage = () => {
         <p>{status}</p>
 
         <div className="stream-chat-layout">
-          {/* Livestream iframe */}
+          {/* Video */}
           <div className="stream-video">
             {url ? (
               <iframe
@@ -152,7 +154,7 @@ const StreamPage = () => {
             )}
           </div>
 
-          {/* Live Chat */}
+          {/* Chat */}
           <div className="chat-box">
             <h3>Live Chat</h3>
             <div className="chat-messages">
@@ -161,6 +163,7 @@ const StreamPage = () => {
                   <strong>{msg.username}:</strong> {msg.message}
                 </p>
               ))}
+              <div ref={chatEndRef} />
             </div>
             <form onSubmit={handleSendMessage}>
               <input
