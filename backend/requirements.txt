@@ -1,5 +1,5 @@
 axios
-pydantic
+pydantic==2.11.1
 fastapi
 uvicorn
 python-multipart
@@ -8,3 +8,5 @@ google-auth-httplib2
 google-api-python-client
 websockets
 python-dotenv
+supabase
+python-jose

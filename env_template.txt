@@ -1,0 +1,9 @@
+backend/.env:
+SUPABASE_URL=
+SUPABASE_KEY=
+
+note: backend/app should contain client_secrets.json for now
+
+frontend/livestream-app/.env:
+REACT_APP_SUPABASE_URL=
+REACT_APP_SUPABASE_ANON_KEY=

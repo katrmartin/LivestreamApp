@@ -2,36 +2,36 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to bottom, #860037, #1a1a1a); /* adjust second color as needed */
+  background: linear-gradient(to bottom, #860037, #1a1a1a);
   min-height: 100vh;
   text-align: center;
   color: white;
 }
 
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #860037;
-    padding: 15px;
-    color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #860037;
+  padding: 15px;
+  color: white;
 }
 
 nav .logo {
-  font-family: Arial;;
-    font-size: 2em;
-    font-weight: bold;
+  font-family: Arial;
+  font-size: 2em;
+  font-weight: bold;
 }
 
 nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
 }
 
 nav ul li {
-    margin: 0 15px;
+  margin: 0 15px;
 }
 
 nav ul li a {
@@ -45,64 +45,48 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: #face00; 
-  border-bottom: 2px solid #face00; 
+  color: #face00;
+  border-bottom: 2px solid #face00;
+}
+
+.nav-user-controls {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.user-greeting {
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.logout-btn {
+  background-color: #860037;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #610028;
 }
 
 header {
-    padding: 50px;
-    background: #222;
-    color: white;
+  padding: 50px;
+  color: white;
 }
 
-.btn {
-    display: inline-block;
-    background: #860037;
-    color: white;
-    padding: 20px 30px;
-    text-decoration: none;
-    margin-top: 20px;
-    border-radius: 5px;
-    font-family: Arial;
-    font-size: 1em;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.btn:hover {
-    background: #610028;
-}
-
-.about {
-    padding: 30px;
-    background: white;
-    margin: 20px;
-    border-radius: 5px;
-}
-
-footer {
-    background: #1a1a1a;
-    color: white;
-    padding: 10px;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
-
-/* Hero Carousel */
 .hero {
   position: relative;
   max-width: 100%;
   height: 600px;
   overflow: hidden;
   margin: 0 auto;
-  border-radius: 0;
-
-}
-
-.hero {
-  background: linear-gradient(to bottom, #860037, #1a1a1a); /* deep maroon to dark */
+  background: linear-gradient(to bottom, #860037, #1a1a1a);
 }
 
 .carousel-track-container {
@@ -112,14 +96,12 @@ footer {
   height: 100%;
 }
 
-/* Carousel Track */
 .carousel-track {
   display: flex;
-  transition: transform 0.5s ease-in-out; /* Smooth slide transition */
-  width: 100%; /* Ensure the track spans the full width */
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
 }
 
-/* Carousel Slide */
 .carousel-slide {
   position: relative;
   min-width: 100%;
@@ -131,18 +113,26 @@ footer {
   margin: 0;
 }
 
-/* Adjust the height of the carousel image */
 .carousel-image {
   width: 100%;
-  height: 100%; /* Limit the image height to 70% of the carousel */
-  object-fit: cover; /* Maintain aspect ratio and crop excess */
-  margin-bottom: 0px; /* Add spacing below the image */
+  height: 100%;
+  object-fit: cover;
+  margin-bottom: 0;
 }
 
-/* Carousel Content */
+.carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+  z-index: 1;
+}
+
 .carousel-content {
-  position: absolute; 
-  z-index: 2;         
+  position: absolute;
+  z-index: 2;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -152,15 +142,16 @@ footer {
   color: white;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
+
 .carousel-content h1 {
   font-family: Arial;
-  font-size: 2.5rem; 
+  font-size: 2.5rem;
   margin-bottom: 50px;
 }
 
 .carousel-content p {
   font-family: Arial;
-  font-size: 1.2rem; 
+  font-size: 1.2rem;
   margin-bottom: 50px;
 }
 
@@ -174,22 +165,10 @@ footer {
   transition: background 0.3s ease;
 }
 
-.carousel-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
-  z-index: 1;
-}
-
-
 .carousel-content .btn:hover {
   background: #610028;
 }
 
-/* Carousel Controls */
 .carousel-controls {
   position: absolute;
   top: 50%;
@@ -199,8 +178,8 @@ footer {
   justify-content: space-between;
   transform: translateY(-50%);
   z-index: 3;
-  padding: 0 20px; /* spacing from edges */
-  pointer-events: none; /* let clicks pass unless on buttons */
+  padding: 0 20px;
+  pointer-events: none;
 }
 
 .carousel-controls button {
@@ -208,367 +187,64 @@ footer {
   color: white;
   border: none;
   padding: 15px 20px;
-  border-radius: 50%;
   font-size: 2rem;
   cursor: pointer;
+  pointer-events: auto;
   transition: background 0.3s ease;
-  pointer-events: auto; /* enable click on buttons */
 }
 
 .carousel-controls button:hover {
   background: rgba(250, 206, 0, 0.5);
 }
 
-
 .carousel-controls button.left {
   position: absolute;
-  left: 10px; /* Position the left control */
+  left: 10px;
 }
 
 .carousel-controls button.right {
   position: absolute;
-  right: 10px; /* Position the right control */
-}
-  
-  
-  .hero h1 {
-    font-size: 2.5em;
-    margin-bottom: 15px;
-  }
-  
-  .hero p {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-  }
-
-  .team-inputs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .team-inputs input {
-    padding: 10px;
-    font-size: 1em;
-    width: 45%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .score-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .score-buttons button {
-    padding: 10px 20px;
-    font-size: 0.9em;
-    background: #860037;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .score-buttons button:hover {
-    background: #610028;
-  }
-  
-
-  .score-bug {
-    position: absolute;
-    bottom: 20px; /* push to bottom */
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.85);
-    color: white;
-    display: flex;
-    border-radius: 10px;
-    font-family: 'Arial Black', sans-serif;
-    z-index: 1000;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    padding: 10px 20px;
-  }
-  
-  
-  .score-bug .team {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-  }
-  
-  .team-name {
-    font-size: 1.1em;
-    margin-right: 10px;
-  }
-  
-  .score {
-    font-size: 1.5em;
-    font-weight: bold;
-    background: #860037;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-  
-/* Admin Page Styles */
-.admin-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  right: 10px;
 }
 
-.welcome-section {
+footer {
+  background: #1a1a1a;
+  color: white;
+  padding: 10px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.stream-chat-layout {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+  gap: 20px;
+  align-items: flex-start;
 }
 
-.create-btn {
-  background: #860037;
-  padding: 12px 24px;
+.stream-video {
+  width: 70%;
 }
 
-.create-btn:hover {
-  background: #face00;
-}
-
-.scheduled-broadcasts {
-  background: transparent;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.broadcast-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.chat-box {
+  background: white;
+  border: 1px solid #ccc;
   padding: 15px;
-  border-bottom: 1px solid #eee;
-}
-
-.broadcast-item:last-child {
-  border-bottom: none;
-}
-
-.broadcast-info h3 {
-  margin: 0;
-  color: #333;
-}
-
-.broadcast-info p {
-  margin: 5px 0 0;
-  color: #666;
-}
-
-.edit-btn {
-  background: transparent;
-  color: #860037;
-  border: 1px solid #860037;
-  padding: 8px 16px;
-}
-
-.edit-broadcast {
-  background: none;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px #face001a;
-}
-
-.edit-broadcast .header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.edit-broadcast h2 {
-  margin: 0 auto;
-}
-
-.back-btn {
-  background: transparent;
-  color: #860037;
-  border: 1px solid #860037;
-}
-
-.edit-broadcast form {
+  width: 30%;
+  height: 500px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  justify-content: space-between;
 }
 
-.edit-broadcast input,
-.edit-broadcast textarea {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
-.edit-broadcast textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.button-group {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.save-btn {
-  background: #860037;
-}
-
-.delete-btn {
-  background: #dc3545;
-}
-
-.cancel-btn {
-  background: #6c757d;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-}
-
-.broadcast-preview {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.embed-preview {
-  background: #f5f5f5;
-  border-radius: 4px;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.manage-btn {
-  width: 100%;
-  background: #860037;
-}
-
-/* Ensure all buttons have consistent styling */
-.btn {
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  opacity: 0.9;
-}
-
-/* Error message styling */
-.error {
-  color: #dc3545;
-  margin-top: 10px;
-  text-align: center;
-}
-
-/* Scoreboard Controls */
-.scoreboard-controls {
-  margin-top: 20px;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 8px;
-}
-
-.score-display {
-  font-family: Arial;
-  font-size: 1.5em;
-  font-weight: bold;
-  text-align: center;
-  margin: 15px 0;
-  color: #333;
-}
-
-.score-buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.score-buttons button {
-  padding: 10px;
-  background: #860037;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.score-buttons button:hover {
-  background: #610028;
-}
-
-.embed-preview {
-  width: 100%;
-  height: 200px;
-  background: #f5f5f5;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.embed-preview iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.embed-preview .placeholder {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  font-size: 1.1em;
-}
-
-.team-inputs {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.team-inputs input {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  width: 100%;
+.chat-messages p {
+  margin: 5px 0;
+  font-size: 0.9em;
 }

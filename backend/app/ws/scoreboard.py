@@ -1,3 +1,5 @@
+# ws/scoreboard.py
+
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
