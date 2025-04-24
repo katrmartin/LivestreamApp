@@ -466,3 +466,37 @@ footer {
 .logout-btn:hover {
   background-color: #610028;
 }
+
+.stream-chat-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.stream-video {
+  width: 70%;
+}
+
+.chat-box {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 30%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.chat-messages p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+

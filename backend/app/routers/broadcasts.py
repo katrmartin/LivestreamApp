@@ -85,8 +85,11 @@ def create_broadcast(request: BroadcastRequest):
 def list_broadcasts():
     try:
         response = supabase.table("broadcasts").select("*").execute()
-        if not hasattr(response, "data") or not response.data:
-            raise HTTPException(status_code=500, detail="Supabase returned no broadcast data.")
+
+        # Return an empty list if no broadcasts exist — NOT an error
+        if not hasattr(response, "data"):
+            return []
+
         return response.data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Could not retrieve broadcasts: {e}")

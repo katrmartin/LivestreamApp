@@ -67,11 +67,20 @@ const AdminPage = () => {
   const fetchBroadcasts = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/broadcasts`);
-      setBroadcasts(response.data);
+      const data = response.data;
+  
+      if (Array.isArray(data) && data.length === 0) {
+        setBroadcasts([]);
+        setError('No broadcasts are currently scheduled.');
+      } else {
+        setBroadcasts(data);
+        setError('');
+      }
     } catch (err) {
-      setError('Failed to fetch broadcasts');
+      setError('Failed to fetch broadcasts. Please try again later.');
     }
   };
+  
 
   const handleCreateNew = () => {
     setIsEditing(true);
