@@ -1,9 +1,11 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #860037, #1a1a1a); /* adjust second color as needed */
+  min-height: 100vh;
+  text-align: center;
+  color: white;
 }
 
 nav {
@@ -16,7 +18,8 @@ nav {
 }
 
 nav .logo {
-    font-size: 1.5em;
+  font-family: Arial;;
+    font-size: 2em;
     font-weight: bold;
 }
 
@@ -32,9 +35,18 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2em;
+  color: white;
+  text-decoration: none;
+  font-family: Arial;
+  font-size: 1.2em;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
+}
+
+nav ul li a:hover {
+  color: #face00; 
+  border-bottom: 2px solid #face00; 
 }
 
 header {
@@ -51,6 +63,7 @@ header {
     text-decoration: none;
     margin-top: 20px;
     border-radius: 5px;
+    font-family: Arial;
     font-size: 1em;
     border: none;
     cursor: pointer;
@@ -69,7 +82,7 @@ header {
 }
 
 footer {
-    background: #333;
+    background: #1a1a1a;
     color: white;
     padding: 10px;
     position: relative;
@@ -81,11 +94,15 @@ footer {
 .hero {
   position: relative;
   max-width: 100%;
-  height: 600px; /* Set a fixed height for the hero */
+  height: 600px;
   overflow: hidden;
   margin: 0 auto;
-  border-radius: 0; /* Remove border-radius for a full-width hero */
-  /* background: #000; */
+  border-radius: 0;
+
+}
+
+.hero {
+  background: linear-gradient(to bottom, #860037, #1a1a1a); /* deep maroon to dark */
 }
 
 .carousel-track-container {
@@ -104,40 +121,46 @@ footer {
 
 /* Carousel Slide */
 .carousel-slide {
-  min-width: 100%; /* Each slide takes up the full width of the carousel */
   position: relative;
+  min-width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column; /* Stack content vertically */
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
-  text-align: center; /* Center text */
-  padding: 20px; /* Add spacing inside each slide */
-  box-sizing: border-box; /* Include padding in width/height calculations */
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 /* Adjust the height of the carousel image */
 .carousel-image {
   width: 100%;
-  max-height: 70%; /* Limit the image height to 70% of the carousel */
+  height: 100%; /* Limit the image height to 70% of the carousel */
   object-fit: cover; /* Maintain aspect ratio and crop excess */
-  margin-bottom: 20px; /* Add spacing below the image */
+  margin-bottom: 0px; /* Add spacing below the image */
 }
 
 /* Carousel Content */
 .carousel-content {
+  position: absolute; 
+  z-index: 2;         
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
   width: 100%;
-  max-width: 800px; /* Limit the width of the text content */
+  max-width: 800px;
   color: white;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
-
 .carousel-content h1 {
-  font-size: 2.5rem; /* Adjust font size for better readability */
+  font-family: Arial;
+  font-size: 2.5rem; 
   margin-bottom: 50px;
 }
 
 .carousel-content p {
-  font-size: 1.2rem; /* Adjust font size for better readability */
+  font-family: Arial;
+  font-size: 1.2rem; 
   margin-bottom: 50px;
 }
 
@@ -151,6 +174,17 @@ footer {
   transition: background 0.3s ease;
 }
 
+.carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+  z-index: 1;
+}
+
+
 .carousel-content .btn:hover {
   background: #610028;
 }
@@ -159,26 +193,32 @@ footer {
 .carousel-controls {
   position: absolute;
   top: 50%;
-  width: 100%;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
   transform: translateY(-50%);
-  z-index: 3; 
+  z-index: 3;
+  padding: 0 20px; /* spacing from edges */
+  pointer-events: none; /* let clicks pass unless on buttons */
 }
 
 .carousel-controls button {
-  background: rgba(0, 0, 0, 0.5);
+  background: none;
   color: white;
   border: none;
-  padding: 10px 15px;
-  cursor: pointer;
+  padding: 15px 20px;
   border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
   transition: background 0.3s ease;
+  pointer-events: auto; /* enable click on buttons */
 }
 
 .carousel-controls button:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(250, 206, 0, 0.5);
 }
+
 
 .carousel-controls button.left {
   position: absolute;
@@ -190,11 +230,6 @@ footer {
   right: 10px; /* Position the right control */
 }
   
-  .overlay {
-    background-color: rgba(0, 0, 0, 0.6); /* Darkens the image */
-    padding: 40px;
-    border-radius: 10px;
-  }
   
   .hero h1 {
     font-size: 2.5em;
@@ -298,8 +333,12 @@ footer {
   padding: 12px 24px;
 }
 
+.create-btn:hover {
+  background: #face00;
+}
+
 .scheduled-broadcasts {
-  background: white;
+  background: transparent;
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 30px;
@@ -336,10 +375,10 @@ footer {
 }
 
 .edit-broadcast {
-  background: white;
+  background: none;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px #face001a;
 }
 
 .edit-broadcast .header {
@@ -468,6 +507,7 @@ footer {
 }
 
 .score-display {
+  font-family: Arial;
   font-size: 1.5em;
   font-weight: bold;
   text-align: center;
