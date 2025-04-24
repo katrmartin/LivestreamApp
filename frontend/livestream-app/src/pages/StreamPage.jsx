@@ -20,7 +20,7 @@ const StreamPage = () => {
   const [newMessage, setNewMessage] = useState('');
   const chatSocketRef = useRef(null);
 
-  // Load livestream URL
+  // Load livestream URL and upcoming game
   useEffect(() => {
     fetch('http://localhost:8000/live_url')
       .then((res) => res.text())
@@ -84,77 +84,98 @@ const StreamPage = () => {
     }
   };
 
-console.log("Current user:", user);
-
+  const displayName =
+    user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
 
   return (
-    <div className="stream-container">
-      {/* TV-style Score Bug */}
-      <div className="score-bug">
-        <div className="team">
-          <span className="team-name">{score.home_name}</span>
-          <span className="score">{score.home}</span>
-        </div>
-        <div className="team">
-          <span className="team-name">{score.away_name}</span>
-          <span className="score">{score.away}</span>
-        </div>
-      </div>
-
-      <h1>Live Broadcast</h1>
-      <p>{status}</p>
-
-      <div className="stream-chat-layout">
-        {/* Livestream iframe */}
-        <div className="stream-video">
-          {url ? (
-            <iframe
-              width="100%"
-              height="500"
-              src={url}
-              title="YouTube Livestream"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          ) : upcomingGame ? (
-            <div className="upcoming-banner" style={{ borderLeft: `10px solid ${upcomingGame.team_color || '#610028'}` }}>
-          <h2>Upcoming Game</h2>
-          <p>
-            <span style={{ color: '#610028', fontWeight: 'bold' }}>CMU</span> vs{' '}
-            <span style={{ color: upcomingGame.team_color }}>{upcomingGame.opponent || 'TBD'}</span> at{' '}
-            {upcomingGame.location || 'TBD'}
-          </p>
-
-          <p><strong>Date:</strong> {upcomingGame.date} — <strong>Time:</strong> {upcomingGame.time}</p>
-        </div>
-      ) : (
-        <p>No livestream is active and no upcoming games are scheduled.</p>
-          )}
-        </div>
-
-        {/* Live Chat */}
-        <div className="chat-box">
-          <h3>Live Chat</h3>
-          <div className="chat-messages">
-            {chatMessages.map((msg, i) => (
-              <p key={i}>
-                <strong>{msg.username}:</strong> {msg.message}
-              </p>
-            ))}
+    <>
+      <nav>
+        <div className="logo">StampedeStream</div>
+        <ul>
+          <li><a href="/home">Home</a></li>
+          <li><a href="/stream">Stream</a></li>
+          <li><a href="/admin">Admin</a></li>
+        </ul>
+        {user && (
+          <div className="nav-user-controls">
+            <span className="user-greeting">Hi {displayName}!</span>
+            <button className="logout-btn" onClick={() => {
+              localStorage.removeItem('token');
+              window.location.href = '/login';
+            }}>
+              Log Out
+            </button>
           </div>
-          <form onSubmit={handleSendMessage}>
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type your message..."
-              required
-            />
-            <button type="submit" className="btn">Send</button>
-          </form>
+        )}
+      </nav>
+
+      <div className="stream-container">
+        {/* TV-style Score Bug */}
+        <div className="score-bug">
+          <div className="team">
+            <span className="team-name">{score.home_name}</span>
+            <span className="score">{score.home}</span>
+          </div>
+          <div className="team">
+            <span className="team-name">{score.away_name}</span>
+            <span className="score">{score.away}</span>
+          </div>
+        </div>
+
+        <h1>Live Broadcast</h1>
+        <p>{status}</p>
+
+        <div className="stream-chat-layout">
+          {/* Livestream iframe */}
+          <div className="stream-video">
+            {url ? (
+              <iframe
+                width="100%"
+                height="500"
+                src={url}
+                title="YouTube Livestream"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            ) : upcomingGame ? (
+              <div className="upcoming-banner" style={{ borderLeft: `10px solid ${upcomingGame.team_color || '#610028'}` }}>
+                <h2>Upcoming Game</h2>
+                <p>
+                  <span style={{ color: '#610028', fontWeight: 'bold' }}>CMU</span> vs{' '}
+                  <span style={{ color: upcomingGame.team_color }}>{upcomingGame.opponent || 'TBD'}</span> at{' '}
+                  {upcomingGame.location || 'TBD'}
+                </p>
+                <p><strong>Date:</strong> {upcomingGame.date} — <strong>Time:</strong> {upcomingGame.time}</p>
+              </div>
+            ) : (
+              <p>No livestream is active and no upcoming games are scheduled.</p>
+            )}
+          </div>
+
+          {/* Live Chat */}
+          <div className="chat-box">
+            <h3>Live Chat</h3>
+            <div className="chat-messages">
+              {chatMessages.map((msg, i) => (
+                <p key={i}>
+                  <strong>{msg.username}:</strong> {msg.message}
+                </p>
+              ))}
+            </div>
+            <form onSubmit={handleSendMessage}>
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Type your message..."
+                required
+              />
+              <button type="submit" className="btn">Send</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
