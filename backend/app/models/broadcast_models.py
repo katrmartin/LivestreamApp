@@ -8,11 +8,17 @@ class BroadcastRequest(BaseModel):
     day: int
     time: Annotated[str, StringConstraints(pattern=r"^\d{2}:\d{2}$")]
     description: str = ""
+    opponent: Optional[str] = ""
+    team_color: Optional[str] = "#610028"
+    location: Optional[str] = ""
 
 class BroadcastResponse(BaseModel):
     id: str
     title: str
-    description: Optional[str]= ""
+    description: Optional[str] = ""
     date: str
     time: str
     url: str
+    opponent: Optional[str] = ""
+    team_color: Optional[str] = "#610028"
+    location: Optional[str] = ""

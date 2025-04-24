@@ -16,6 +16,10 @@ const AdminPage = () => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [error, setError] = useState('');
+  const [opponent, setOpponent] = useState('');
+  const [teamColor, setTeamColor] = useState('#610028'); // default school color
+  const [location, setLocation] = useState('');
+
 
   const [home, setHome] = useState(0);
   const [away, setAway] = useState(0);
@@ -94,7 +98,10 @@ const AdminPage = () => {
         title,
         month,
         day,
-        time: utcTime
+        time: utcTime,
+        opponent,
+        team_color: teamColor,
+        location
       };
 
       if (editingBroadcast) {
@@ -171,6 +178,24 @@ const AdminPage = () => {
               onChange={(e) => setTime(e.target.value)}
               required
             />
+            <input 
+              type="text"
+              placeholder="Opponent Name"
+              value={opponent}
+              onChange={(e) => setOpponent(e.target.value)}
+              />
+            <input 
+              type="color"
+              value={teamColor}
+              onChange={(e) => setTeamColor(e.target.value)}
+              title="Pick Opponent Team Color"
+            />
+            <input
+              type="text"
+              placeholder="Game Location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
             <div className="button-group">
               <button type="submit" className="btn save-btn">Save</button>
               {editingBroadcast && (
@@ -204,7 +229,7 @@ const AdminPage = () => {
             <div className="broadcast-info">
               <h3>{broadcast.title}</h3>
               {(() => {
-                const localDate = new Date(`${broadcast.date}T${broadcast.time}:00Z`);
+                const localDate = new Date(`${broadcast.date}T${broadcast.time}Z`);
                 return <p>{localDate.toLocaleString()} (your time) </p>;
               })()}
             </div>

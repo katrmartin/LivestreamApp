@@ -24,8 +24,7 @@ export function getUTCPartsFromLocal(dateStr, timeStr) {
    * @returns {Object} { date: "YYYY-MM-DD", time: "HH:MM" } in local time
    */
   export function getLocalInputsFromUTC(dateStr, timeStr) {
-    const utcDate = new Date(`${dateStr}T${timeStr}:00Z`);
-  
+    const utcDate = new Date(`${dateStr}T${timeStr}Z`);  
     const localYear = utcDate.getFullYear();
     const localMonth = String(utcDate.getMonth() + 1).padStart(2, '0');
     const localDay = String(utcDate.getDate()).padStart(2, '0');
