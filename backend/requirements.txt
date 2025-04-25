@@ -10,3 +10,4 @@ websockets
 python-dotenv
 supabase
 python-jose
+bcrypt

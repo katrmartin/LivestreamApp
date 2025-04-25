@@ -62,7 +62,8 @@ def login(user: UserLogin):
     token = create_access_token({
         "id": db_user["id"],
         "email": db_user["email"],
-        "pay_status": db_user["pay_status"]
+        "pay_status": db_user["pay_status"],
+        "is_admin": db_user.get("is_admin", False)
     })
 
     return {"access_token": token, "token_type": "bearer"}

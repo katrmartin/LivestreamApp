@@ -1,23 +1,20 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import StreamPage from './pages/StreamPage';
 import AdminPage from './pages/AdminPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
-import { AuthContext } from './AuthContext';
 import OAuthCallback from './pages/OAuthCallback';
-
-const ProtectedRoute = ({ children }) => {
-  const { user } = useContext(AuthContext);
-  return user ? children : <Navigate to="/login" />;
-};
+import AdminRoute from './components/AdminRoute';
+import PrivateRoute from './components/PrivateRoute';
+import { AuthContext } from './AuthContext';
 
 const App = () => {
-  const { loading, user } = useContext(AuthContext);
+  const { loading } = useContext(AuthContext); 
 
-  if (loading || user === undefined) return <div>Loading...</div>;
+  if (loading) return <div>Loading App...</div>;
 
   return (
     <Router>
@@ -28,13 +25,16 @@ const App = () => {
         <Route path="/oauth/callback" element={<OAuthCallback />} />
 
         {/* Protected routes */}
-        <Route path="/home" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-        <Route path="/stream" element={<ProtectedRoute><StreamPage /></ProtectedRoute>} />
-        <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+        <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
+        <Route path="/stream" element={<PrivateRoute><StreamPage /></PrivateRoute>} />
 
-        {/* Redirect unknown paths */}
+        {/* Admin-only route */}
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<AdminPage />} />
+        </Route>
+
+        {/* 404 fallback */}
         <Route path="*" element={<NotFoundPage />} />
-
       </Routes>
     </Router>
   );
