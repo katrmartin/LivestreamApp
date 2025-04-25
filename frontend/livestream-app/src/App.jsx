@@ -22,6 +22,14 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        {/* Default */}
+        <Route
+          path="/"
+          element={
+            user ? <Navigate to="/home" /> : <Navigate to="/login" />
+          }
+        />
+
         {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
