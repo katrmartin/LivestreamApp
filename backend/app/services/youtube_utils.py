@@ -9,8 +9,8 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from helpers.time_utils import build_scheduled_start_utc
-from config import settings
+from app.helpers.time_utils import build_scheduled_start_utc
+from app.config import settings
 
 SCOPES = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
@@ -70,7 +70,7 @@ def create_broadcast(youtube, title, scheduled_start, description="", max_retrie
             if "503" in str(e):
                 wait_time = random.randint(5, 15)
                 time.sleep(wait_time)
-                retries += 1
+                #retries += 1
             else:
                 raise HTTPException(status_code=500, detail=f"YouTube API error: {e}")
     raise HTTPException(status_code=500, detail="Unable to schedule broadcast after retries.")

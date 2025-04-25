@@ -3,11 +3,11 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
-from config import settings
+from app.config import settings
 import bcrypt
 import os
 from supabase import create_client
-from services.auth_utils import create_access_token, verify_token
+from app.services.auth_utils import create_access_token, verify_token
 
 
 router = APIRouter()
