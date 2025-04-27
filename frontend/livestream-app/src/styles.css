@@ -227,17 +227,52 @@ footer {
 }
 
 .chat-box {
-  background: white;
+  position: fixed;
+  bottom:0;
+  right:0;
+  background: rgb(255, 255, 255, 0.75);
   border: 1px solid #ccc;
   padding: 15px;
-  width: 30%;
-  height: 500px;
+  width: 25%;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  z-index: 2;
-  background: white;
   color: black;
+  transition: width 0.3s ease, height 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collapse-btn {
+  background: #860037;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background 0.3s ease;
+}
+
+.collapse-btn:hover {
+  background: #610028;
+}
+
+.chat-box.collapsed {
+  height: auto;
+  padding: 10px 15px;
+}
+
+.chat-box.collapsed .chat-messages,
+.chat-box.collapsed form {
+  display: none;
 }
 
 .chat-messages {

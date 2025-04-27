@@ -16,6 +16,7 @@ const StreamPage = () => {
     away_name: 'Away',
   });
 
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [showDonationPopup, setShowDonationPopup] = useState(true);
@@ -165,27 +166,40 @@ const StreamPage = () => {
           </div>
 
           {/* Chat */}
-          <div className="chat-box">
+          <div className={`chat-box ${isChatOpen ? '' : 'collapsed'}`}>
+          <div className="chat-header">
             <h3>Live Chat</h3>
-            <div className="chat-messages">
-              {chatMessages.map((msg, i) => (
-                <p key={i}>
-                  <strong>{msg.username}:</strong> {msg.message}
-                </p>
-              ))}
-              <div ref={chatEndRef} />
-            </div>
-            <form onSubmit={handleSendMessage}>
-              <input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Type your message..."
-                required
-              />
-              <button type="submit" className="btn">Send</button>
-            </form>
+            <button
+              className="collapse-btn"
+              onClick={() => setIsChatOpen(!isChatOpen)}
+            >
+              {isChatOpen ? 'Hide' : 'Show'}
+            </button>
           </div>
+
+          {isChatOpen && (
+            <>
+              <div className="chat-messages">
+                {chatMessages.map((msg, i) => (
+                  <p key={i}>
+                    <strong>{msg.username}:</strong> {msg.message}
+                  </p>
+                ))}
+                <div ref={chatEndRef} />
+              </div>
+              <form onSubmit={handleSendMessage}>
+                <input
+                  type="text"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  placeholder="Type your message..."
+                  required
+                />
+                <button type="submit" className="btn">Send</button>
+              </form>
+            </>
+          )}
+        </div>
 
           {showDonationPopup && (
           <div className="donation-popup">
