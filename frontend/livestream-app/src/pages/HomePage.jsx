@@ -17,6 +17,13 @@ const slides = [
     description: 'Learn more about the team, roster, and schedule.',
     link: 'https://cmumavericks.com/sports/womens-rugby',
     linkText: "Visit Women's Rugby Page",
+  }, 
+  {
+    image: '/images/Image.jpeg',
+    title: 'Watch Past Games',
+    description: 'Catchup on past rugby games.',
+    link: 'https://www.youtube.com/@CMUMavericks', // Replace with actual YouTube link
+    linkText: 'Watch Past Games',
   },
   {
     image: '/images/Image.jpeg',
@@ -59,14 +66,13 @@ const HomePage = () => {
   return (
     <>
       <nav>
-        <ul className="nav-left">
-          <li><Link to="/">Home</Link></li>
-        </ul>
-
+        
         <div className="nav-logo">
           <img src="/images/logo_main.svg" alt="Logo" />
         </div>
-
+        <ul className="nav-left">
+          <li><Link to="/">Home</Link></li>
+        </ul>
         <ul className="nav-right">
           <li><Link to="/stream">Stream</Link></li>
           <li><Link to="/admin">Admin</Link></li>

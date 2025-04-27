@@ -18,6 +18,8 @@ const StreamPage = () => {
 
   const [chatMessages, setChatMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [showDonationPopup, setShowDonationPopup] = useState(true);
+  const [showDonateButton, setShowDonateButton] = useState(false);    
   const chatSocketRef = useRef(null);
   const chatEndRef = useRef(null);
 
@@ -111,6 +113,14 @@ const StreamPage = () => {
         )}
       </nav>
 
+      {showDonateButton && (
+        <a href="https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0" className="donate-banner-link" target="_blank" rel="noopener noreferrer">
+          <div className="donate-banner">
+            <span className="donate-button">Donate Now</span>
+          </div>
+        </a>
+      )}
+
       <div className="stream-container">
         {/* Score Bug */}
         <div className="score-bug">
@@ -176,6 +186,36 @@ const StreamPage = () => {
               <button type="submit" className="btn">Send</button>
             </form>
           </div>
+
+          {showDonationPopup && (
+          <div className="donation-popup">
+            <div className="donation-content">
+              <h2>Support the Team!</h2>
+              <p>Your donations help the CMU Women's Rugby team. Thank you!</p>
+              <div className="donation-buttons">
+              <button
+              onClick={() => {
+                setShowDonationPopup(false);
+                setShowDonateButton(true);
+                window.open('https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0', '_blank');
+              }}
+              className="btn"
+            >
+              Donate Now
+            </button>
+                <button
+                onClick={() => {
+                  setShowDonationPopup(false);
+                  setShowDonateButton(true);
+                }}
+                className="btn-secondary"
+              >
+                Maybe Later
+              </button>
+              </div>
+            </div>
+          </div>
+        )}
         </div>
       </div>
     </>

@@ -254,3 +254,102 @@ footer {
   font-size: 0.9em;
   color: black;
 }
+
+.donation-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.donation-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  color: #333;
+  max-width: 400px;
+  width: 90%;
+}
+
+.donation-content h2 {
+  margin-bottom: 10px;
+}
+
+.donation-content p {
+  margin-bottom: 20px;
+}
+
+.donation-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.donation-buttons .btn, .donation-buttons .btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.donation-buttons .btn {
+  background-color: #860037;
+  color: white;
+}
+
+.donation-buttons .btn:hover {
+  background-color: #610028;
+}
+
+.donation-buttons .btn-secondary {
+  background: transparent;
+  color: #860037;
+  border: 2px solid #860037;
+}
+
+.donation-buttons .btn-secondary:hover {
+  background-color: #860037;
+  color: white;
+}
+
+.donate-banner-link {
+  display: block;
+  text-decoration: none; 
+}
+
+.donate-banner {
+  background: transparent;
+  padding: 15px 0;
+  text-align: center;
+  cursor: pointer; 
+  transition: background 0.3s ease;
+}
+
+.donate-banner:hover {
+  background: rgba(250, 206, 0, 0.75); 
+}
+
+.donate-button {
+  background-color: transparent;
+  display: inline-block; 
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.donate-button:hover {
+  background-color: transparent; 
+}
