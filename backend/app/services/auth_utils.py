@@ -2,7 +2,7 @@
 
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
-from config import settings
+from app.config import settings
 
 # JWT stuff. this is important because we need verify things like pay status
 # without this the user will constantly have to log back in even when we update the scoreboard

@@ -16,8 +16,11 @@ const StreamPage = () => {
     away_name: 'Away',
   });
 
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [showDonationPopup, setShowDonationPopup] = useState(true);
+  const [showDonateButton, setShowDonateButton] = useState(false);    
   const chatSocketRef = useRef(null);
   const chatEndRef = useRef(null);
 
@@ -111,6 +114,14 @@ const StreamPage = () => {
         )}
       </nav>
 
+      {showDonateButton && (
+        <a href="https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0" className="donate-banner-link" target="_blank" rel="noopener noreferrer">
+          <div className="donate-banner">
+            <span className="donate-button">Donate Now</span>
+          </div>
+        </a>
+      )}
+
       <div className="stream-container">
         {/* Score Bug */}
         <div className="score-bug">
@@ -155,27 +166,70 @@ const StreamPage = () => {
           </div>
 
           {/* Chat */}
-          <div className="chat-box">
+          <div className={`chat-box ${isChatOpen ? '' : 'collapsed'}`}>
+          <div className="chat-header">
             <h3>Live Chat</h3>
-            <div className="chat-messages">
-              {chatMessages.map((msg, i) => (
-                <p key={i}>
-                  <strong>{msg.username}:</strong> {msg.message}
-                </p>
-              ))}
-              <div ref={chatEndRef} />
-            </div>
-            <form onSubmit={handleSendMessage}>
-              <input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Type your message..."
-                required
-              />
-              <button type="submit" className="btn">Send</button>
-            </form>
+            <button
+              className="collapse-btn"
+              onClick={() => setIsChatOpen(!isChatOpen)}
+            >
+              {isChatOpen ? 'Hide' : 'Show'}
+            </button>
           </div>
+
+          {isChatOpen && (
+            <>
+              <div className="chat-messages">
+                {chatMessages.map((msg, i) => (
+                  <p key={i}>
+                    <strong>{msg.username}:</strong> {msg.message}
+                  </p>
+                ))}
+                <div ref={chatEndRef} />
+              </div>
+              <form onSubmit={handleSendMessage}>
+                <input
+                  type="text"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  placeholder="Type your message..."
+                  required
+                />
+                <button type="submit" className="btn">Send</button>
+              </form>
+            </>
+          )}
+        </div>
+
+          {showDonationPopup && (
+          <div className="donation-popup">
+            <div className="donation-content">
+              <h2>Support the Team!</h2>
+              <p>Your donations help the CMU Women's Rugby team. Thank you!</p>
+              <div className="donation-buttons">
+              <button
+              onClick={() => {
+                setShowDonationPopup(false);
+                setShowDonateButton(true);
+                window.open('https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0', '_blank');
+              }}
+              className="btn"
+            >
+              Donate Now
+            </button>
+                <button
+                onClick={() => {
+                  setShowDonationPopup(false);
+                  setShowDonateButton(true);
+                }}
+                className="btn-secondary"
+              >
+                Maybe Later
+              </button>
+              </div>
+            </div>
+          </div>
+        )}
         </div>
       </div>
     </>
