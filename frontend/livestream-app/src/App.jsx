@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // <-- added Navigate here!
 import HomePage from './pages/HomePage';
 import StreamPage from './pages/StreamPage';
 import AdminPage from './pages/AdminPage';
@@ -12,14 +12,14 @@ import PrivateRoute from './components/PrivateRoute';
 import { AuthContext } from './AuthContext';
 
 const App = () => {
-  const { loading } = useContext(AuthContext); 
+  const { loading, user } = useContext(AuthContext);
 
   if (loading) return <div>Loading App...</div>;
 
   return (
     <Router>
       <Routes>
-        {/* Default */}
+        {/* Default route */}
         <Route
           path="/"
           element={
