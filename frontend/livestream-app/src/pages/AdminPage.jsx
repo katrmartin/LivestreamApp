@@ -4,12 +4,15 @@ import axios from 'axios';
 import '../styles.css';
 import { AuthContext } from '../AuthContext';
 import { getUTCPartsFromLocal, getLocalInputsFromUTC } from '../utils/time_utils';
+import { useNavigate } from 'react-router-dom';
+
 
 const API_BASE_URL = 'http://localhost:8000';
 const WS_BASE_URL = 'ws://localhost:8000';
 
 const AdminPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();  
   const [broadcasts, setBroadcasts] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingBroadcast, setEditingBroadcast] = useState(null);
@@ -154,7 +157,7 @@ const AdminPage = () => {
         <ul>
           <li><Link to="/home">Home</Link></li>
           <li><Link to="/stream">Stream</Link></li>
-          <li><Link to="/admin">Admin</Link></li>
+          {user?.is_admin && <li><Link to="/admin">Admin</Link></li>}
         </ul>
         <div className="nav-user-controls">
           {user && (

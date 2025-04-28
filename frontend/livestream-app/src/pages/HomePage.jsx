@@ -75,7 +75,9 @@ const HomePage = () => {
         </ul>
         <ul className="nav-right">
           <li><Link to="/stream">Stream</Link></li>
-          <li><Link to="/admin">Admin</Link></li>
+          {user?.is_admin && (
+            <li><a href="/admin">Admin</a></li>
+          )}
         </ul>
 
         {user && (
