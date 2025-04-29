@@ -61,12 +61,18 @@ const StreamPage = () => {
     scoreSocket.onopen = () => setStatus('Connected to live scoreboard');
     scoreSocket.onerror = () => setStatus('WebSocket error');
     scoreSocket.onclose = () => setStatus('Disconnected');
+    
     scoreSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      setScore(data);
+  
+      setTimeout(() => {
+        setScore(data);
+      }, 15000); // 15000 milliseconds = 15 seconds
     };
+  
     return () => scoreSocket.close();
   }, []);
+  
 
   useEffect(() => {
     chatSocketRef.current = new WebSocket('ws://localhost:8000/ws/chat');
