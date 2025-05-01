@@ -81,7 +81,7 @@ const HomePage = () => {
   <div className="hero-left-text">
     <h2>COLORADO MESA UNIVERSITY<br />WOMEN'S CLUB RUGBY</h2>
     <p>Live from the pitch<br /><Link to="/stream" className="stream-btn">
-      Go To Stream
+      Go To Stream  →
     </Link></p>
   </div>
 

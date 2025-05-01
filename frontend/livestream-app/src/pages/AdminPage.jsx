@@ -244,14 +244,14 @@ const AdminPage = () => {
                 <p style={{ fontSize: '1.2em', fontWeight: 'bold' }}>{homeTeam}: {home} | {awayTeam}: {away}</p>
                 <div className="score-buttons">
                   <button onClick={() => updateScore('home', 1)}>+1 {homeTeam}</button>
-                  <button onClick={() => updateScore('away', 1)}>+1 {awayTeam}</button>
                   <button onClick={() => updateScore('home', -1)}>-1 {homeTeam}</button>
+                  <button onClick={() => updateScore('away', 1)}>+1 {awayTeam}</button>
                   <button onClick={() => updateScore('away', -1)}>-1 {awayTeam}</button>
                 </div>
-                <button className="btn" onClick={() => {
-                  updateScore('home', -home);
-                  updateScore('away', -away);
-                }}>Reset Scores</button>
+                <button className="btn reset-btn" onClick={() => {
+  updateScore('home', -home);
+  updateScore('away', -away);
+}}>Reset Scores</button>
               </div>
             </>
           )}

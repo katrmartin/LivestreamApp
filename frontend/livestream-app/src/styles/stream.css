@@ -1,3 +1,17 @@
+.hero-box {
+  background-color: #860037;
+  width: 95%;
+  min-height: 95vh;
+  border-radius: 30px;
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  position: relative;
+}
+
 .stream-chat-layout {
     display: flex;
     gap: 20px;
@@ -16,27 +30,31 @@
     flex-grow: 1;
     text-align: center;
     width: 100%;
-    padding: 20px 0;
+    padding: 0px 0;
+    position: relative; 
+    z-index: 1; 
   }
   
+  
   .chat-box {
-    position: fixed;
-    bottom:0;
-    right:0;
-    background: rgb(255, 255, 255, 0.75);
+    position: absolute; 
+    bottom: 30px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.75);
     border: 1px solid #ccc;
     padding: 15px;
-    width: 25%;
-    height: 300px;
+    width: 150px;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     color: black;
     transition: width 0.3s ease, height 0.3s ease, padding 0.3s ease;
     overflow: hidden;
-    border-radius: 10px 10px 0 0;
+    border-radius: 15px;
+    z-index: 2; /* Make sure it layers above stream */
   }
-  
+    
   .chat-header {
     display: flex;
     justify-content: space-between;
@@ -80,5 +98,38 @@
     margin: 5px 0;
     font-size: 0.9em;
     color: black;
+  }
+
+  
+  .score-bug {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 40px;
+    margin: 20px auto 10px auto;
+    border-radius: 15px;
+    width: fit-content;
+    font-family: Arial, sans-serif;
+  }
+  
+  .score-bug .team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+  }
+  
+  .score-bug .team-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .score-bug .score {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #face00;
+    margin-top: 5px;
   }
   

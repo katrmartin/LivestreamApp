@@ -13,7 +13,7 @@ const StreamPage = () => {
   const [showDonateButton, setShowDonateButton] = useState(false);   
   const [upcomingGame, setUpcomingGame] = useState(null);
   const [status, setStatus] = useState("Connecting...");
-  const [isChatOpen, setIsChatOpen] = useState(true);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [score, setScore] = useState({
@@ -103,6 +103,7 @@ const StreamPage = () => {
             </ul>
             <ul className="nav-right">
               <li><a href="/stream">Stream</a></li>
+              <li><a href="https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0" target="_blank" rel="noopener noreferrer">Donate</a></li> 
               {user?.is_admin && <li><a href="/admin">Admin</a></li>}
             </ul>
             {user && (
@@ -117,7 +118,7 @@ const StreamPage = () => {
               </div>
             )}
           </nav>
-
+{/* 
           {showDonateButton && (
   <div className="donate-wrapper">
     <a
@@ -131,38 +132,10 @@ const StreamPage = () => {
       </div>
     </a>
   </div>
-)}
+  
+)} */}
 
-          
-        <div className="stream-container">
-        <div className="stream-video" id="live">
-          {url ? (
-            <iframe
-              width="100%"
-              height="500"
-              src={url}
-              title="YouTube Livestream"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          ) : upcomingGame ? (
-            <div className="upcoming-banner" style={{ borderLeft: `10px solid ${upcomingGame.team_color || '#610028'}` }}>
-              <h2>Upcoming Game</h2>
-              <p>
-                <span style={{ color: '#610028', fontWeight: 'bold' }}>CMU</span> vs{' '}
-                <span style={{ color: upcomingGame.team_color }}>{upcomingGame.opponent || 'TBD'}</span> at{' '}
-                {upcomingGame.location || 'TBD'}
-              </p>
-              <p><strong>Date:</strong> {upcomingGame.date} — <strong>Time:</strong> {upcomingGame.time}</p>
-            </div>
-          ) : (
-            <h2>No livestream is active and no upcoming games are scheduled.</h2>
-          )}
-        </div>
-        </div>
-        
-        {/* Show only if livestream is active */}
-        {url && (
+          {url && (
           <>
             <div className="score-bug">
               <div className="team">
@@ -205,6 +178,36 @@ const StreamPage = () => {
             </div>
           </>
         )}
+        
+        <div className="stream-container">
+        <div className="stream-video" id="live">
+          {url ? (
+            <iframe
+              width="100%"
+              height="500"
+              src={url}
+              title="YouTube Livestream"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          ) : upcomingGame ? (
+            <div className="upcoming-banner" style={{ borderLeft: `10px solid ${upcomingGame.team_color || '#610028'}` }}>
+              <h2>Upcoming Game</h2>
+              <p>
+                <span style={{ color: '#610028', fontWeight: 'bold' }}>CMU</span> vs{' '}
+                <span style={{ color: upcomingGame.team_color }}>{upcomingGame.opponent || 'TBD'}</span> at{' '}
+                {upcomingGame.location || 'TBD'}
+              </p>
+              <p><strong>Date:</strong> {upcomingGame.date} — <strong>Time:</strong> {upcomingGame.time}</p>
+            </div>
+          ) : (
+            <h2>No livestream is active and no upcoming games are scheduled.</h2>
+          )}
+        </div>
+        </div>
+        
+        {/* Show only if livestream is active */}
+        
       </div>
 
       {showDonationPopup && (

@@ -1,0 +1,272 @@
+.admin-page {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px;
+    width: 95%;
+  }
+  
+  .welcome-section {
+    text-align: center;
+  }
+  
+  .welcome-section h1 {
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+  .create-btn {
+    padding: 10px 30px;
+    background-color: #64012b;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .create-btn:hover {
+    background-color: #000000;
+  }
+  
+  .scheduled-broadcasts {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .scheduled-broadcasts h2 {
+    color: #face00;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+  
+  .broadcast-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .broadcast-info h3 {
+    font-size: 1.2rem;
+    color: white;
+    margin: 0;
+  }
+  
+  .broadcast-info p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 5px 0 0;
+  }
+  
+  .edit-broadcast {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .edit-broadcast .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .edit-broadcast h2 {
+    color: #face00;
+  }
+  
+  .edit-broadcast form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .edit-broadcast input[type="text"],
+  .edit-broadcast input[type="date"],
+  .edit-broadcast input[type="time"],
+  .edit-broadcast input[type="color"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #face00;
+    background: black;
+    color: white;
+    font-size: 1rem;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .save-btn,
+  .delete-btn,
+  .back-btn {
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s ease;
+  }
+  
+  .save-btn {
+    background-color: #860037;
+    color: white;
+  }
+  
+  .save-btn:hover {
+    background-color: #610028;
+  }
+  
+  .delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+  }
+  
+  .delete-btn:hover {
+    background-color: #cc0000;
+  }
+  
+  .back-btn {
+    background-color: #999;
+    color: black;
+  }
+  
+  .back-btn:hover {
+    background-color: #777;
+  }
+  
+  .current-broadcast {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .current-broadcast h2 {
+    color: #face00;
+  }
+  
+  .broadcast-preview {
+    margin-top: 15px;
+  }
+  
+  .embed-preview iframe {
+    border-radius: 10px;
+  }
+  
+  .placeholder {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 50px;
+    border-radius: 10px;
+    color: #ccc;
+  }
+  
+  .score-controls {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .score-controls h2 {
+    color: #face00;
+  }
+  
+  .team-inputs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .team-inputs input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    background: black;
+    color: white;
+    border: 1px solid #face00;
+  }
+  
+  .score-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+  }
+  
+  .score-buttons button {
+    flex: 1;
+    padding: 10px;
+    background-color: #860037;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .score-buttons button:hover {
+    background-color: #610028;
+  }
+  
+  .reset-btn {
+    background-color: #555;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .reset-btn:hover {
+    background-color: #333;
+  }  
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+  }
+  
+  .modal-content .button-group {
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .cancel-btn {
+    background-color: #777;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #555;
+  }
+  
