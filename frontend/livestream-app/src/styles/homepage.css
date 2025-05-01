@@ -147,6 +147,7 @@
 
   .model-wrapper {
     position: relative;
+    margin-bottom: 140px;
     width: 500px;
     height: 350px;
     display: flex;
