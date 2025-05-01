@@ -3,6 +3,9 @@ import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import '../styles/login.css';
+import '../styles/global.css';
+import '../styles/responsive.css';
 
 const LoginPage = () => {
   const { user, login, loading } = useContext(AuthContext);
@@ -63,6 +66,7 @@ const LoginPage = () => {
   
   return (
     <div className="login-container">
+      <h1>STAMPEDESTREAM</h1>
       <h2>Login</h2>
       {err && <p className="error">{err}</p>}
       <form onSubmit={handleLogin}>

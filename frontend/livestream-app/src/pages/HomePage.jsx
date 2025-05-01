@@ -1,36 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
-import '../styles.css';
+// import '../styles.css';
+import '../styles/homepage.css';
+import '../styles/global.css';
+import '../styles/responsive.css';
 
 const slides = [
   {
-    image: '/images/Image.jpeg',
-    title: 'Welcome to StampedeStream',
-    description: "Home of CMU Club Women's Rugby Livestreaming.",
-    link: '/stream',
-    linkText: 'Watch Now',
+    image: '/images/CMUChampionship412.jpg',
   },
   {
-    image: '/images/Image.jpeg',
-    title: 'About the Team',
-    description: 'Learn more about the team, roster, and schedule.',
-    link: 'https://cmumavericks.com/sports/womens-rugby',
-    linkText: "Visit Women's Rugby Page",
+    image: '/images/CMUwomensRugby.jpg',
   }, 
   {
-    image: '/images/Image.jpeg',
-    title: 'Watch Past Games',
-    description: 'Catchup on past rugby games.',
-    link: 'https://www.youtube.com/@CMUMavericks', // Replace with actual YouTube link
-    linkText: 'Watch Past Games',
+    image: '/images/IMG_1021.jpg',
   },
   {
-    image: '/images/Image.jpeg',
-    title: 'Support the Team',
-    description: 'Help us grow by donating to our program.',
-    link: 'https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0',
-    linkText: 'Donate Now',
+    image: '/images/IMG_2221.jpg',
   },
 ];
 
@@ -65,9 +52,6 @@ const HomePage = () => {
 
   return (
     <>
-      <nav>
-        
-      </nav>
 
 <header className="hero-new">
   <div className="hero-box">
@@ -96,12 +80,30 @@ const HomePage = () => {
     <div className="hero-content">
   <div className="hero-left-text">
     <h2>COLORADO MESA UNIVERSITY<br />WOMEN'S CLUB RUGBY</h2>
-    <p>Live from the pitch<br></br><Link to="/stream" className="stream-btn">
+    <p>Live from the pitch<br /><Link to="/stream" className="stream-btn">
       Go To Stream
     </Link></p>
-    
   </div>
+
+  {/* <div className="hero-photo-stack">
+  <div className="photo-stack-wrapper">
+    {slides.map((slide, index) => (
+      <img
+        key={index}
+        src={slide.image}
+        alt={`Slide ${index + 1}`}
+        className={`photo-stack-image ${index === currentSlide ? 'active' : ''}`}
+        style={{
+          transform: `rotate(${(index - 1) * 7}deg)`,
+          zIndex: index === currentSlide ? 10 : index, // Top image higher z-index
+          opacity: index === currentSlide ? 1 : 0.7,
+        }}
+      />
+    ))}
+  </div>
+</div> */}
 </div>
+
 
     {/* WRAP the heading separately */}
     <div className="hero-title-container">
@@ -158,10 +160,8 @@ const HomePage = () => {
       Donate Now
     </a>
   </section>
+
 </main>
-
-
-
 
       <footer>
         <p>&copy; 2025 StampedeStream. All rights reserved.</p>
