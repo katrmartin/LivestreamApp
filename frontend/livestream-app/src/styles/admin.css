@@ -144,6 +144,22 @@
   .back-btn:hover {
     background-color: #777;
   }
+
+  .edit-btn {
+    background-color: #555;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .edit-btn:hover {
+    background-color: #333;
+  }
+  
   
   .current-broadcast {
     background: #1a1a1a;
