@@ -28,6 +28,30 @@ const StreamPage = () => {
 
   const displayName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
 
+  const formatDateTime = (dateStr, timeStr) => {
+    const fullDate = new Date(`${dateStr}T${timeStr}`);
+  
+    // Format MM/DD/YYYY
+    const month = (fullDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = fullDate.getDate().toString().padStart(2, '0');
+    const year = fullDate.getFullYear();
+  
+    // Format HH:MM AM/PM
+    let hours = fullDate.getHours();
+    const minutes = fullDate.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+  
+    const formattedTime = `${hours}:${minutes} ${ampm}`;
+  
+    return {
+      formattedDate: `${month}/${day}/${year}`,
+      formattedTime
+    };
+  };
+  
+
   useEffect(() => {
     fetch('http://localhost:8000/live_url')
       .then((res) => res.text())
@@ -198,7 +222,12 @@ const StreamPage = () => {
                 <span style={{ color: upcomingGame.team_color }}>{upcomingGame.opponent || 'TBD'}</span> at{' '}
                 {upcomingGame.location || 'TBD'}
               </p>
-              <p><strong>Date:</strong> {upcomingGame.date} — <strong>Time:</strong> {upcomingGame.time}</p>
+              {upcomingGame && (() => {
+  const { formattedDate, formattedTime } = formatDateTime(upcomingGame.date, upcomingGame.time);
+  return (
+    <p><strong>Date:</strong> {formattedDate} — <strong>Time:</strong> {formattedTime}</p>
+  );
+})()}
             </div>
           ) : (
             <h2>No livestream is active and no upcoming games are scheduled.</h2>
