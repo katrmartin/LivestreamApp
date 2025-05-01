@@ -223,14 +223,14 @@ const StreamPage = () => {
                 {upcomingGame.location || 'TBD'}
               </p>
               {upcomingGame && (() => {
-  const { formattedDate, formattedTime } = formatDateTime(upcomingGame.date, upcomingGame.time);
-  return (
-    <p><strong>Date:</strong> {formattedDate} — <strong>Time:</strong> {formattedTime}</p>
-  );
-})()}
+              const { formattedDate, formattedTime } = formatDateTime(upcomingGame.date, upcomingGame.time);
+              return (
+                <p><strong>Date:</strong> {formattedDate} — <strong>Time:</strong> {formattedTime}</p>
+              );
+            })()}
             </div>
           ) : (
-            <h2>No livestream is active and no upcoming games are scheduled.</h2>
+          <h2 className="no-stream-message">No livestream is active and no upcoming games are scheduled.</h2>
           )}
         </div>
         </div>
