@@ -96,11 +96,22 @@
     width: 100%;
     text-align: center;
   }
+
+  #hero-text {
+    color: black; /* fallback */
+    background: none;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background 0.2s ease, color 0.2s ease;
+    position: relative;
+  }
   
+
   .hero-left-text {
     text-align: left;
     margin-left: 100px;
     margin-top: 150px;
+    margin-bottom: 200px;
     color: black;
     font-size: 6rem;
   }
@@ -111,11 +122,54 @@
     margin: 0;
     font-size: 3rem;
   }
+
+  
   
   .hero-left-text p {
     margin: 0;
     font-size: 1.5rem;
   }
+
+  .hero-right-image {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 100px; /* push it in cleanly */
+  }
+  
+  .hero-right-image model-viewer, .hero-right-image img {
+    width: 300px;
+    height: 300px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .model-wrapper {
+    position: relative;
+    width: 500px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .model-wrapper model-viewer {
+    z-index: 2;
+  }
+  
+  .model-shadow {
+    position: absolute;
+    bottom: 10px;
+    width: 220px;
+    height: 30px;
+    background: radial-gradient(ellipse at center, rgba(36, 30, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(10px);
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  
   
   .stream-btn {
     display: inline-block;
@@ -141,10 +195,16 @@
     color: #ffffff;
   }
   
-  .home-content {
-    background: black;
-    padding: 50px 20px;
-  }
+ .hero-content {
+  display: flex;
+  align-items: center;   /* Make both sides align vertically center */
+  justify-content: space-between;  /* Push left and right apart */
+  gap: 50px;   /* Space between text and ball */
+  margin-top: 50px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
   
   .info-section {
     background: transparent;
@@ -257,3 +317,15 @@
     background: #610028;
   }
   
+    /* Hidden by default */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+/* When visible */
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0px);
+}

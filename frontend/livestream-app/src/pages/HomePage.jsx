@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
+import { useRef } from 'react';
 import '../styles/homepage.css';
 import '../styles/global.css';
 import '../styles/responsive.css';
+
+
 
 const slides = [
   { image: '/images/CMUChampionship412.jpg' },
@@ -12,7 +15,25 @@ const slides = [
   { image: '/images/IMG_2221.jpg' },
 ];
 
+
 const HomePage = () => {
+
+  useEffect(() => {
+    const elements = document.querySelectorAll('.scroll-animate');
+  
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+  
+    elements.forEach(el => observer.observe(el));
+  
+    return () => observer.disconnect();
+  }, []);
+  
   const [currentSlide, setCurrentSlide] = useState(0);
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -63,13 +84,32 @@ const HomePage = () => {
           </nav>
 
           <div className="hero-content">
-            <div className="hero-left-text">
-              <h2>COLORADO MESA UNIVERSITY<br />WOMEN'S CLUB RUGBY</h2>
-              <p>Live from the pitch.<br /><Link to="/stream" className="stream-btn">
-                Watch Now →
-              </Link></p>
-            </div>
-          </div>
+  <div className="hero-left-text">
+    <h2 id="hero-text">COLORADO MESA UNIVERSITY<br />WOMEN'S CLUB RUGBY</h2>
+    <p>Live from the pitch.<br /><Link to="/stream" className="stream-btn">
+      Watch Now →
+    </Link></p>
+  </div>
+
+  <div className="hero-right-image">
+  <div className="model-wrapper">
+    <model-viewer
+      src="/models/RugbyBall.glb"
+      alt="Rotating Rugby Ball"
+      auto-rotate
+      auto-rotate-delay="0"
+      rotation-per-second="30deg"
+      disable-zoom
+      disable-pan
+      disable-rotate
+      style={{ width: '500px', height: '500px' }}
+    >
+    </model-viewer>
+    <div className="model-shadow"></div> {/* Shadow element */}
+  </div>
+</div>
+</div>
+
 
           <div className="hero-title-container">
             <h1>STAMPEDESTREAM</h1>
@@ -103,7 +143,7 @@ const HomePage = () => {
   ].map((section, index) => (
     <section
       key={index}
-      className={`info-section alt-section ${index % 2 === 1 ? 'reverse' : ''}`}
+      className={`info-section alt-section scroll-animate ${index % 2 === 1 ? 'reverse' : ''}`}
     >
       <div className="info-image">
         <img src={section.image} alt={section.title} />
@@ -123,6 +163,7 @@ const HomePage = () => {
     </section>
   ))}
 </main>
+
 
       <footer>
         <p>&copy; 2025 StampedeStream. All rights reserved.</p>
