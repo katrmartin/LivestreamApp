@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    min-height: 100vh;
+    text-align: center;
+    color: white;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000000;
+    padding: 10px;
+    color: white;
+  }
+  
+  nav .logo {
+    font-family: Arial;
+    font-size: 2em;
+    font-weight: bold;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  nav ul li {
+    margin: 0 15px;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-family: Arial;
+    font-size: 1.2em;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 4px;
+  }
+  
+  nav ul li a:hover {
+    color: #face00;
+    border-bottom: 2px solid #face00;
+  }
+  
+  .nav-user-controls {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+  
+  .user-greeting {
+    margin-right: 15px;
+    font-weight: bold;
+  }
+  
+  .logout-btn {
+    background-color: #860037;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #610028;
+  }
+  
+  footer {
+    background: #000000;
+    color: white;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  

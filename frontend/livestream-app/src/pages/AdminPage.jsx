@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles.css';
+import '../styles/admin.css';
+import '../styles/global.css';
+import '../styles/responsive.css';
 import { AuthContext } from '../AuthContext';
 import { getUTCPartsFromLocal, getLocalInputsFromUTC } from '../utils/time_utils';
 import { useNavigate } from 'react-router-dom';
-
 
 const API_BASE_URL = 'http://localhost:8000';
 const WS_BASE_URL = 'ws://localhost:8000';
 
 const AdminPage = () => {
   const { user, loading } = useContext(AuthContext);
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
   const [broadcasts, setBroadcasts] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingBroadcast, setEditingBroadcast] = useState(null);
@@ -146,134 +147,226 @@ const AdminPage = () => {
     }
   };
 
-  const displayName =
-  user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
+  const displayName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
 
   return (
-    <>
-      {/* Navbar */}
-      <nav>
-        <div className="logo">StampedeStream</div>
-        <ul>
-          <li><Link to="/home">Home</Link></li>
-          <li><Link to="/stream">Stream</Link></li>
-          {user?.is_admin && <li><Link to="/admin">Admin</Link></li>}
-        </ul>
-        <div className="nav-user-controls">
-          {user && (
-            <>
-              <span className="user-greeting">Hi {displayName}!</span>
-              <button className="logout-btn" onClick={() => {
-                localStorage.removeItem('token');
-                window.location.href = '/login';
-              }}>Log Out</button>
-            </>
-          )}
-        </div>
-      </nav>
-  
-      {/* Admin Page Wrapper */}
-      <div className="admin-page">
-        {isEditing ? (
-          <div className="edit-broadcast">
-            <div className="header">
-              <button className="btn back-btn" onClick={() => setIsEditing(false)}>Back</button>
-              <h2>{editingBroadcast ? 'Edit Broadcast' : 'Create Broadcast'}</h2>
-            </div>
-            <form onSubmit={handleSave}>
-              <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-              <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
-              <input type="text" placeholder="Opponent Name" value={opponent} onChange={(e) => setOpponent(e.target.value)} />
-              <input type="color" value={teamColor} onChange={(e) => setTeamColor(e.target.value)} title="Pick Opponent Team Color" />
-              <input type="text" placeholder="Game Location" value={location} onChange={(e) => setLocation(e.target.value)} />
-              <div className="button-group">
-                <button type="submit" className="btn save-btn">Save</button>
-                {editingBroadcast && (
-                  <button type="button" className="btn delete-btn" onClick={() => setShowConfirmDelete(true)}>Delete</button>
-                )}
-              </div>
-            </form>
-            {error && <p className="error">{error}</p>}
+    <header className="hero-new">
+      <div className="hero-box">
+        <nav className="hero-nav">
+          <ul className="nav-left">
+            <li><Link to="/home">Home</Link></li>
+          </ul>
+          <ul className="nav-right">
+            <li><Link to="/stream">Stream</Link></li>
+            {user?.is_admin && <li><Link to="/admin">Admin</Link></li>}
+          </ul>
+          <div className="nav-user-controls">
+            <span className="user-greeting">Hi {displayName}!</span>
+            <button className="logout-btn" onClick={() => {
+              localStorage.removeItem('token');
+              window.location.href = '/login';
+            }}>Log Out</button>
           </div>
-        ) : (
-          <>
-            <div className="welcome-section">
-              <h1>Welcome</h1>
-              <button className="btn create-btn" onClick={handleCreateNew}>Create Broadcast</button>
-            </div>
-  
-            <div className="scheduled-broadcasts">
-              <h2>Scheduled Broadcasts:</h2>
-              {broadcasts.map((broadcast) => (
-                <div key={broadcast.id} className="broadcast-item">
-                  <div className="broadcast-info">
-                    <h3>{broadcast.title}</h3>
-                    {(() => {
-                      const localDate = new Date(`${broadcast.date}T${broadcast.time}Z`);
-                      return <p>{localDate.toLocaleString()} (your time)</p>;
-                    })()}
-                  </div>
-                  <button className="btn edit-btn" onClick={() => handleEdit(broadcast)}>Edit</button>
-                </div>
-              ))}
-            </div>
-  
-            <div className="current-broadcast">
-              <h2>Current Broadcast</h2>
-              <div className="broadcast-preview">
-                <div className="embed-preview">
-                  {currentBroadcastUrl ? (
-                    <iframe
-                      title="Live Stream"
-                      width="100%"
-                      height="200"
-                      src={currentBroadcastUrl}
-                      frameBorder="0"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <div className="placeholder">No active broadcast</div>
+        </nav>
+
+        <div className="admin-page">
+          {isEditing ? (
+            <div className="edit-broadcast">
+              <div className="header">
+                <button className="btn back-btn" onClick={() => setIsEditing(false)}>Back</button>
+                <h2>{editingBroadcast ? 'Edit Broadcast' : 'Create Broadcast'}</h2>
+              </div>
+              <form onSubmit={handleSave}>
+                <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
+                <input type="text" placeholder="Opponent Name" value={opponent} onChange={(e) => setOpponent(e.target.value)} />
+                <input type="color" value={teamColor} onChange={(e) => setTeamColor(e.target.value)} title="Pick Opponent Team Color" />
+                <input type="text" placeholder="Game Location" value={location} onChange={(e) => setLocation(e.target.value)} />
+                <div className="button-group">
+                  <button type="submit" className="btn save-btn">Save</button>
+                  {editingBroadcast && (
+                    <button type="button" className="btn delete-btn" onClick={() => setShowConfirmDelete(true)}>Delete</button>
                   )}
                 </div>
+              </form>
+              {error && <p className="error">{error}</p>}
+            </div>
+          ) : (
+            <>
+              <div className="welcome-section">
+                <h1>Welcome</h1>
+                <button className="btn create-btn" onClick={handleCreateNew}>Create Broadcast</button>
+              </div>
+
+              <div className="scheduled-broadcasts">
+                <h2>Scheduled Broadcasts:</h2>
+                {broadcasts.map((broadcast) => (
+                  <div key={broadcast.id} className="broadcast-item">
+                    <div className="broadcast-info">
+                      <h3>{broadcast.title}</h3>
+                      {(() => {
+                        const localDate = new Date(`${broadcast.date}T${broadcast.time}Z`);
+                        return <p>{localDate.toLocaleString()} (your time)</p>;
+                      })()}
+                    </div>
+                    <button className="btn edit-btn" onClick={() => handleEdit(broadcast)}>Edit</button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="current-broadcast">
+                <h2>Current Broadcast</h2>
+                <div className="broadcast-preview">
+                  <div className="embed-preview">
+                    {currentBroadcastUrl ? (
+                      <iframe
+                        title="Live Stream"
+                        width="100%"
+                        height="200"
+                        src={currentBroadcastUrl}
+                        frameBorder="0"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <div className="placeholder">No active broadcast</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="score-controls">
+                <h2>Scoreboard</h2>
+                <div className="team-inputs">
+                  <input type="text" value={homeTeam} onChange={(e) => setHomeTeam(e.target.value)} onBlur={updateTeamNames} placeholder="Home Team Name" />
+                  <input type="text" value={awayTeam} onChange={(e) => setAwayTeam(e.target.value)} onBlur={updateTeamNames} placeholder="Away Team Name" />
+                </div>
+                <p style={{ fontSize: '1.2em', fontWeight: 'bold' }}>{homeTeam}: {home} | {awayTeam}: {away}</p>
+                <div className="score-buttons">
+                  <button onClick={() => updateScore('home', 1)}>+1 {homeTeam}</button>
+                  <button onClick={() => updateScore('home', -1)}>-1 {homeTeam}</button>
+                  <button onClick={() => updateScore('away', 1)}>+1 {awayTeam}</button>
+                  <button onClick={() => updateScore('away', -1)}>-1 {awayTeam}</button>
+                </div>
+                <button className="btn reset-btn" onClick={() => {
+  updateScore('home', -home);
+  updateScore('away', -away);
+}}>Reset Scores</button>
+              </div>
+            </>
+          )}
+
+          {showConfirmDelete && (
+            <div className="modal">
+              <div className="modal-content">
+                <h3>Confirm Delete</h3>
+                <p>Are you sure you want to delete this broadcast?</p>
+                <div className="button-group">
+                  <button className="btn delete-btn" onClick={() => handleDelete(editingBroadcast.id)}>Delete</button>
+                  <button className="btn cancel-btn" onClick={() => setShowConfirmDelete(false)}>Cancel</button>
+                </div>
               </div>
             </div>
-  
-            <div className="score-controls">
-              <h2>Scoreboard</h2>
-              <div className="team-inputs">
-                <input type="text" value={homeTeam} onChange={(e) => setHomeTeam(e.target.value)} onBlur={updateTeamNames} placeholder="Home Team Name" />
-                <input type="text" value={awayTeam} onChange={(e) => setAwayTeam(e.target.value)} onBlur={updateTeamNames} placeholder="Away Team Name" />
-              </div>
-              <p style={{ fontSize: '1.2em', fontWeight: 'bold' }}>{homeTeam}: {home} | {awayTeam}: {away}</p>
-              <div className="score-buttons">
-                <button onClick={() => updateScore('home', 1)}>+1 {homeTeam}</button>
-                <button onClick={() => updateScore('away', 1)}>+1 {awayTeam}</button>
-                <button onClick={() => updateScore('home', -1)}>-1 {homeTeam}</button>
-                <button onClick={() => updateScore('away', -1)}>-1 {awayTeam}</button>
-              </div>
-              <button className="btn" onClick={() => {
-                updateScore('home', -home);
-                updateScore('away', -away);
-              }}>Reset Scores</button>
-            </div>
-          </>
-        )}
-  
-        {showConfirmDelete && (
-          <div className="modal">
-            <div className="modal-content">
-              <h3>Confirm Delete</h3>
-              <p>Are you sure you want to delete this broadcast?</p>
-              <div className="button-group">
-                <button className="btn delete-btn" onClick={() => handleDelete(editingBroadcast.id)}>Delete</button>
-                <button className="btn cancel-btn" onClick={() => setShowConfirmDelete(false)}>Cancel</button>
-              </div>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </>
-  );  
-}
+    </header>
+  );
+};
+
 export default AdminPage;
+
+// import React, { useState, useEffect, useContext } from 'react';
+// import '../styles.css';
+// import { AuthContext } from '../AuthContext';
+
+// const AdminPage = () => {
+//   const { user } = useContext(AuthContext);
+//   const [broadcasts, setBroadcasts] = useState([]);
+//   const [formData, setFormData] = useState({
+//     date: '',
+//     time: '',
+//     location: '',
+//     opponent: '',
+//     url: '',
+//     team_color: '',
+//   });
+//   const [showDonateButton, setShowDonateButton] = useState(true);
+
+//   useEffect(() => {
+//     fetch('http://localhost:8000/broadcasts')
+//       .then((res) => res.json())
+//       .then((data) => setBroadcasts(data))
+//       .catch((err) => console.error('Error fetching broadcasts:', err));
+//   }, []);
+
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     fetch('http://localhost:8000/broadcasts', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(formData),
+//     })
+//       .then((res) => res.json())
+//       .then((data) => {
+//         setBroadcasts([...broadcasts, data]);
+//         setFormData({ date: '', time: '', location: '', opponent: '', url: '', team_color: '' });
+//       })
+//       .catch((err) => console.error('Error creating broadcast:', err));
+//   };
+
+//   return (
+//     <header className="hero-new">
+//       <div className="hero-box">
+//         <nav className="hero-nav">
+//           <ul className="nav-left">
+//             <li><a href="/home">Home</a></li>
+//           </ul>
+//           <ul className="nav-right">
+//             <li><a href="/stream">Stream</a></li>
+//             {user?.is_admin && <li><a href="/admin">Admin</a></li>}
+//           </ul>
+//           {user && (
+//             <div className="nav-user-controls">
+//               <span className="user-greeting">Hi {user.user_metadata?.name || user.email}!</span>
+//               <button className="logout-btn" onClick={() => {
+//                 localStorage.removeItem('token');
+//                 window.location.href = '/login';
+//               }}>
+//                 Log Out
+//               </button>
+//             </div>
+//           )}
+//         </nav>
+
+//         <div className="admin-container">
+//           <h2>Admin Panel</h2>
+//           <form className="admin-form" onSubmit={handleSubmit}>
+//             <input type="date" name="date" value={formData.date} onChange={handleChange} placeholder="Date" required />
+//             <input type="time" name="time" value={formData.time} onChange={handleChange} placeholder="Time" required />
+//             <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="Location" required />
+//             <input type="text" name="opponent" value={formData.opponent} onChange={handleChange} placeholder="Opponent" required />
+//             <input type="text" name="url" value={formData.url} onChange={handleChange} placeholder="Livestream URL" required />
+//             <input type="text" name="team_color" value={formData.team_color} onChange={handleChange} placeholder="Team Color" />
+//             <button type="submit" className="btn">Create Broadcast</button>
+//           </form>
+
+//           <h3>Upcoming Broadcasts</h3>
+//           <ul className="broadcast-list">
+//             {broadcasts.map((b) => (
+//               <li key={b.id}>
+//                 {b.date} @ {b.time} vs {b.opponent} — {b.location}
+//               </li>
+//             ))}
+//           </ul>
+//         </div>
+//       </div>
+//     </header>
+//   );
+// };
+
+// export default AdminPage;

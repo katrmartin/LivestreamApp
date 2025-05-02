@@ -1,0 +1,332 @@
+.hero-new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    padding: 1px;
+  }
+  
+  .hero-box {
+    background-color: #860037;
+    width: 95%;
+    min-height: 95vh;
+    border-radius: 30px;
+    margin: 20px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    box-sizing: border-box;
+  }
+  
+  .hero-nav {
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    height: 50px;
+    box-sizing: border-box;
+  }
+  
+  .hero-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .hero-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    transition: color 0.3s ease;
+  }
+  
+  .hero-nav ul li a:hover {
+    color: #face00;
+  }
+  
+  .hero-nav .nav-user-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .hero-nav .logout-btn {
+    background-color: #860037;
+    border: none;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.3s ease;
+  }
+  
+  .hero-nav .logout-btn:hover {
+    background-color: #610028;
+  }
+  
+  .hero-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+  }
+  
+  .hero-title-container h1 {
+    color: black;
+    font-family: Impact;
+    font-size: 12vw; 
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    line-height: .7; 
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  #hero-text {
+    color: black; /* fallback */
+    background: none;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background 0.2s ease, color 0.2s ease;
+    position: relative;
+  }
+  
+
+  .hero-left-text {
+    text-align: left;
+    margin-left: 100px;
+    margin-top: 150px;
+    margin-bottom: 200px;
+    color: black;
+    font-size: 6rem;
+  }
+  
+  .hero-left-text h2 {
+    font-family: Impact;
+    font-weight: bold;
+    margin: 0;
+    font-size: 3rem;
+  }
+
+  
+  
+  .hero-left-text p {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .hero-right-image {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 100px; /* push it in cleanly */
+  }
+  
+  .hero-right-image model-viewer, .hero-right-image img {
+    width: 300px;
+    height: 300px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .model-wrapper {
+    position: relative;
+    margin-bottom: 140px;
+    width: 500px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .model-wrapper model-viewer {
+    z-index: 2;
+  }
+  
+  .model-shadow {
+    position: absolute;
+    bottom: 10px;
+    width: 220px;
+    height: 30px;
+    background: radial-gradient(ellipse at center, rgba(36, 30, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(10px);
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  
+  
+  .stream-btn {
+    display: inline-block;
+    margin-top: 10px; 
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  .stream-btn a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .stream-btn:hover {
+    background-color: #610028;
+    color: #ffffff;
+  }
+  
+ .hero-content {
+  display: flex;
+  align-items: center;   /* Make both sides align vertically center */
+  justify-content: space-between;  /* Push left and right apart */
+  gap: 50px;   /* Space between text and ball */
+  margin-top: 50px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+  
+  .info-section {
+    background: transparent;
+    border-radius: 20px;
+    margin: 50px auto;
+    padding: 40px 20px;
+    width: 90%;
+    max-width: 1000px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .info-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #face00;
+  }
+  
+  .info-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  
+  .info-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #860037;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  .info-button:hover {
+    background: #610028;
+  }
+
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+  .social-icons a {
+    color: white;
+    transition: color 0.3s ease;
+  }
+  
+  .social-icons a:hover {
+    color: #face00;
+  }
+  
+  
+  .alt-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 60px auto;
+    gap: 50px;
+    flex-wrap: wrap;
+    width: 90%;
+    max-width: 1200px;
+  }
+  
+  .alt-section.reverse {
+    flex-direction: row-reverse;
+  }
+  
+  .info-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .info-text {
+    flex: 1;
+    min-width: 300px;
+    text-align: left;
+    color: white;
+  }
+  
+  .info-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #face00;
+  }
+  
+  .info-text p {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+  
+  .info-text .info-button {
+    background: #860037;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  .info-text .info-button:hover {
+    background: #610028;
+  }
+  
+    /* Hidden by default */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+/* When visible */
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0px);
+}

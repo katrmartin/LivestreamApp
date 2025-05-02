@@ -1,40 +1,39 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
-import '../styles.css';
+import { useRef } from 'react';
+import '../styles/homepage.css';
+import '../styles/global.css';
+import '../styles/responsive.css';
+
+
 
 const slides = [
-  {
-    image: '/images/Image.jpeg',
-    title: 'Welcome to StampedeStream',
-    description: "Home of CMU Club Women's Rugby Livestreaming.",
-    link: '/stream',
-    linkText: 'Watch Now',
-  },
-  {
-    image: '/images/Image.jpeg',
-    title: 'About the Team',
-    description: 'Learn more about the team, roster, and schedule.',
-    link: 'https://cmumavericks.com/sports/womens-rugby',
-    linkText: "Visit Women's Rugby Page",
-  }, 
-  {
-    image: '/images/Image.jpeg',
-    title: 'Watch Past Games',
-    description: 'Catchup on past rugby games.',
-    link: 'https://www.youtube.com/@CMUMavericks', // Replace with actual YouTube link
-    linkText: 'Watch Past Games',
-  },
-  {
-    image: '/images/Image.jpeg',
-    title: 'Support the Team',
-    description: 'Help us grow by donating to our program.',
-    link: 'https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0',
-    linkText: 'Donate Now',
-  },
+  { image: '/images/CMUChampionship412.jpg' },
+  { image: '/images/CMUwomensRugby.jpg' },
+  { image: '/images/IMG_1021.jpg' },
+  { image: '/images/IMG_2221.jpg' },
 ];
 
+
 const HomePage = () => {
+
+  useEffect(() => {
+    const elements = document.querySelectorAll('.scroll-animate');
+  
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+  
+    elements.forEach(el => observer.observe(el));
+  
+    return () => observer.disconnect();
+  }, []);
+  
   const [currentSlide, setCurrentSlide] = useState(0);
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -44,10 +43,8 @@ const HomePage = () => {
     navigate('/login');
   };
 
-  const displayName =
-    user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
+  const displayName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
 
-  // Automatically move to the next slide every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       goToNext();
@@ -65,63 +62,108 @@ const HomePage = () => {
 
   return (
     <>
-      <nav>
-        
-        <div className="nav-logo">
-          <img src="/images/logo_main.svg" alt="Logo" />
-        </div>
-        <ul className="nav-left">
-          <li><Link to="/">Home</Link></li>
-        </ul>
-        <ul className="nav-right">
-          <li><Link to="/stream">Stream</Link></li>
-          {user?.is_admin && (
-            <li><a href="/admin">Admin</a></li>
-          )}
-        </ul>
+      <header className="hero-new">
+        <div className="hero-box">
+          <nav className="hero-nav">
+            <ul className="nav-left">
+              <li><Link to="/">Home</Link></li>
+            </ul>
+            <ul className="nav-right">
+              <li><Link to="/stream">Stream</Link></li>
+              {user?.is_admin && (
+                <li><a href="/admin">Admin</a></li>
+              )}
+            </ul>
 
-        {user && (
-          <div className="nav-user-controls">
-            <span className="user-greeting">Hi {displayName}!</span>
-            <button className="logout-btn" onClick={handleLogout}>Log Out</button>
-          </div>
-        )}
-      </nav>
-
-      <header className="hero">
-        <div className="carousel-track-container">
-          <div
-            className="carousel-track"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {slides.map((slide, index) => (
-              <div className="carousel-slide" key={index}>
-                <img src={slide.image} alt={slide.title} className="carousel-image" />
-                <div className="carousel-overlay"></div>
+            {user && (
+              <div className="nav-user-controls">
+                <span className="user-greeting">Hi {displayName}!</span>
+                <button className="logout-btn" onClick={handleLogout}>Log Out</button>
               </div>
-            ))}
+            )}
+          </nav>
+
+          <div className="hero-content">
+  <div className="hero-left-text">
+    <h2 id="hero-text">COLORADO MESA UNIVERSITY<br />WOMEN'S CLUB RUGBY</h2>
+    <p>Live from the pitch.<br /><Link to="/stream" className="stream-btn">
+      Watch Now →
+    </Link></p>
+  </div>
+
+  <div className="hero-right-image">
+  <div className="model-wrapper">
+    <model-viewer
+      src="/models/RugbyBall.glb"
+      alt="Rotating Rugby Ball"
+      auto-rotate
+      auto-rotate-delay="0"
+      rotation-per-second="30deg"
+      disable-zoom
+      disable-pan
+      disable-rotate
+      style={{ width: '500px', height: '500px' }}
+    >
+    </model-viewer>
+    <div className="model-shadow"></div> {/* Shadow element */}
+  </div>
+</div>
+</div>
+
+
+          <div className="hero-title-container">
+            <h1>STAMPEDESTREAM</h1>
           </div>
-        </div>
-
-        {/* Centered dynamic content */}
-        <div className="carousel-content">
-          <h1>{slides[currentSlide].title}</h1>
-          <p>{slides[currentSlide].description}</p>
-          <a
-            href={slides[currentSlide].link}
-            className="btn"
-            target={slides[currentSlide].link.startsWith('http') ? '_blank' : '_self'}
-            rel="noreferrer"
-          >
-            {slides[currentSlide].linkText}
-          </a>
-        </div>
-
-        <div className="carousel-controls">
-          <button onClick={goToPrevious}>&#10094;</button>
-          <button onClick={goToNext}>&#10095;</button>
         </div>
       </header>
+
+      <main className="home-content">
+  {[
+    {
+      image: '/images/WYO end photo 10.26.24.JPG',
+      title: 'About the Mavericks',
+      description: "We're fierce, we're fast, and we're building a rugby legacy at Colorado Mesa University. Learn about our journey, our drive, and what it means to be a Maverick.",
+      buttonText: 'Meet the Team',
+      buttonLink: 'https://cmumavericks.com/sports/womens-rugby',
+    },
+    {
+      image: '/images/download.webp',
+      title: 'Replay the Glory',
+      description: 'Every match tells a story. Rewatch past battles and feel the adrenaline of every try, tackle, and victory.',
+      buttonText: 'Watch on YouTube',
+      buttonLink: 'https://www.youtube.com/@CMUMavericks',
+    },
+    {
+      image: '/images/IMG_2455.jpg',
+      title: 'Fuel Our Stampede',
+      description: 'Help power our dreams. Your support sends us to new fields, new challenges, and greater heights.',
+      buttonText: 'Donate Now',
+      buttonLink: 'https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0',
+    },
+  ].map((section, index) => (
+    <section
+      key={index}
+      className={`info-section alt-section scroll-animate ${index % 2 === 1 ? 'reverse' : ''}`}
+    >
+      <div className="info-image">
+        <img src={section.image} alt={section.title} />
+      </div>
+      <div className="info-text">
+        <h2>{section.title}</h2>
+        <p>{section.description}</p>
+        <a
+          href={section.buttonLink}
+          className="info-button"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {section.buttonText}
+        </a>
+      </div>
+    </section>
+  ))}
+</main>
+
 
       <footer>
         <p>&copy; 2025 StampedeStream. All rights reserved.</p>

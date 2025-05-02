@@ -1,0 +1,606 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #000000;
+  min-height: 100vh;
+  text-align: center;
+  color: white;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #000000;
+  padding: 10px;
+  color: white;
+}
+
+nav .logo {
+  font-family: Arial;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-family: Arial;
+  font-size: 1.2em;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
+}
+
+nav ul li a:hover {
+  color: #face00;
+  border-bottom: 2px solid #face00;
+}
+
+.nav-user-controls {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.user-greeting {
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.logout-btn {
+  background-color: #860037;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #610028;
+}
+
+header {
+  padding: 50px;
+  color: white;
+}
+
+footer {
+  background: #000000;
+  color: white;
+  padding: 10px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.stream-chat-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.stream-video {
+  width: 70%;
+}
+
+.stream-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  /* Centers vertically */
+  flex-grow: 1;
+  text-align: center;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.chat-box {
+  position: fixed;
+  bottom:0;
+  right:0;
+  background: rgb(255, 255, 255, 0.75);
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 25%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: black;
+  transition: width 0.3s ease, height 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collapse-btn {
+  background: #860037;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background 0.3s ease;
+}
+
+.collapse-btn:hover {
+  background: #610028;
+}
+
+.chat-box.collapsed {
+  height: auto;
+  padding: 10px 15px;
+}
+
+.chat-box.collapsed .chat-messages,
+.chat-box.collapsed form {
+  display: none;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 5px;
+  max-height: 400px;
+  text-align: left;
+}
+
+
+.chat-messages p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: black;
+}
+
+.donation-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.donation-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  color: #333;
+  max-width: 400px;
+  width: 90%;
+}
+
+.donation-content h2 {
+  margin-bottom: 10px;
+}
+
+.donation-content p {
+  margin-bottom: 20px;
+}
+
+.donation-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.donation-buttons .btn, .donation-buttons .btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.donation-buttons .btn {
+  background-color: #860037;
+  color: white;
+}
+
+.donation-buttons .btn:hover {
+  background-color: #610028;
+}
+
+.donation-buttons .btn-secondary {
+  background: transparent;
+  color: #860037;
+  border: 2px solid #860037;
+}
+
+.donation-buttons .btn-secondary:hover {
+  background-color: #860037;
+  color: white;
+}
+
+.donate-button {
+  background-color: black;
+  display: inline-block; 
+  color: white;
+  font-weight: bold;
+  padding: 10px 50px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.donate-button:hover {
+  background-color: #610028; 
+}
+
+.donate-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+body {
+  background-color: black; 
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.hero-new {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  padding: 1px;
+}
+
+.hero-box {
+  background-color: #860037;
+  width: 90%;
+  min-height: 95vh;
+  border-radius: 30px;
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+.hero-nav {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 50px;
+  box-sizing: border-box;
+}
+
+.hero-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.hero-nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+  transition: color 0.3s ease;
+}
+
+.hero-nav ul li a:hover {
+  color: #face00;
+}
+
+.hero-nav .nav-user-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-nav .logout-btn {
+  background-color: #860037;
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background 0.3s ease;
+}
+
+.hero-nav .logout-btn:hover {
+  background-color: #610028;
+}
+
+.hero-title-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 100%;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.hero-title-container h1 {
+  color: black;
+  font-family: Impact;
+  font-size: 12vw; 
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  line-height: .9; 
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.hero-left-text {
+  text-align: left;
+  margin-left: 100px;
+  margin-top: 150px;
+  color: black;
+  font-size: 6rem;
+}
+
+.hero-left-text h2 {
+  font-family: Impact;
+  font-weight: bold;
+  margin: 0;
+  font-size: 3rem;
+}
+
+.hero-left-text p {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.stream-btn {
+  display: inline-block;
+  margin-top: 10px; 
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 40px;
+  border-radius: 20px;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.stream-btn a {
+  color: inherit; 
+  text-decoration: none;
+}
+.stream-btn:hover {
+  background-color: #610028;
+  color: #ffffff;
+}
+
+.home-content {
+  background: black;
+  padding: 50px 20px;
+}
+
+.info-section {
+  background: #1a1a1a;
+  border-radius: 20px;
+  margin: 50px auto;
+  padding: 40px 20px;
+  width: 90%;
+  max-width: 1000px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.info-section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #face00;
+}
+
+.info-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.info-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #860037;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.info-button:hover {
+  background: #610028;
+}
+
+@media (max-width: 600px) {
+  .hero-nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-user-controls {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .info-section {
+    padding: 20px 10px;
+  }
+
+  .info-button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 10px;
+  }
+
+  .hero-left-text {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .hero-left-text h2 {
+    font-size: 8vw; /* Scale based on screen width */
+  }
+
+  .hero-left-text p {
+    font-size: 5vw;
+  }
+
+  .hero-title-container {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    margin-top: 20px;
+  }
+
+  .hero-title-container h1 {
+    font-size: 10vw;
+  }
+
+  .hero-nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-nav ul {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding: 0;
+  }
+
+  .nav-user-controls {
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 5px;
+  }
+}
+
+/* Center the login container */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: black; 
+  color: white;
+}
+
+.login-container h1 {
+  display: flex;
+  font-size: 9rem;
+  font-weight: bold;
+  font-family: Impact;
+  margin-bottom: 20px;
+  color: #860037; 
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 350px;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  background: transparent;
+  border: 1px solid #face00; 
+  padding: 12px 15px;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.login-container input[type="email"]::placeholder,
+.login-container input[type="password"]::placeholder {
+  color: #face00;
+}
+
+/* On focus, make the border slightly thicker or brighter */
+.login-container input[type="email"]:focus,
+.login-container input[type="password"]:focus {
+  border-color: #ffd700;
+}
+
+/* Style the login button */
+.login-container .btn {
+  background-color: #860037;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-container .btn:hover {
+  background-color: #610028;
+}
