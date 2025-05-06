@@ -4,7 +4,7 @@ from typing import List
 from datetime import date, time, datetime
 from app.models.broadcast_models import BroadcastRequest, BroadcastResponse
 from app.services.supabase_client import supabase
-from app.services import (
+from app.services.youtube_utils import (
     schedule_broadcast,
     update_broadcast as youtube_update_broadcast,
     delete_broadcast as youtube_delete_broadcast,
