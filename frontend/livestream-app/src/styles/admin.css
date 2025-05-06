@@ -145,7 +145,7 @@
     background-color: #777;
   }
 
-  .edit-btn {
+  .edit-btn, .go-live-btn {
     background-color: #555;
     color: white;
     padding: 10px;
@@ -156,11 +156,11 @@
     margin-top: 10px;
   }
   
-  .edit-btn:hover {
+  .edit-btn:hover, .go-live-btn:hover {
     background-color: #333;
   }
-  
-  
+
+   
   .current-broadcast {
     background: #1a1a1a;
     padding: 20px;

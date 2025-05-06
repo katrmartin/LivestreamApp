@@ -38,6 +38,7 @@ const HomePage = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  
   const handleLogout = async () => {
     await logout();
     navigate('/login');

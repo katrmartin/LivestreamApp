@@ -149,6 +149,35 @@ const AdminPage = () => {
 
   const displayName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
 
+  const markAsLive = async (id) => {
+  try {
+    await fetch(`http://localhost:8000/broadcast/${id}/go_live`, {
+      method: 'POST',
+    });
+    alert('Broadcast marked as live!');
+    // Optionally reload broadcasts
+  } catch (error) {
+    console.error('Failed to mark broadcast as live:', error);
+  }
+};
+
+useEffect(() => {
+  const fetchLiveBroadcast = async () => {
+    try {
+      const res = await fetch('http://localhost:8000/broadcast/live');
+      if (!res.ok) throw new Error('No live broadcast');
+      const data = await res.json();
+      setCurrentBroadcastUrl(data.url);
+    } catch (err) {
+      console.log('No live broadcast');
+      setCurrentBroadcastUrl(null);
+    }
+  };
+
+  fetchLiveBroadcast();
+}, []);
+
+
   return (
     <header className="hero-new">
       <div className="hero-box">
@@ -211,6 +240,11 @@ const AdminPage = () => {
                       })()}
                     </div>
                     <button className="btn edit-btn" onClick={() => handleEdit(broadcast)}>Edit</button>
+                    {!broadcast.is_live && (
+                      <button className="btn go-live-btn" onClick={() => markAsLive(broadcast.id)}>
+                        Broadcast is Live!
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
