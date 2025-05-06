@@ -69,3 +69,11 @@ StampedeStream is a full-stack livestreaming web application designed for live s
 ### 🙌 Team
 
  - Built by CMU students Katie Martin, Berenice Rascon, and Carlos Ortiz for the Spring 2025 Software Engineering course.
+
+ ### Contributions:
+  - Carlos:
+    - User login system 
+    - User Authentication and Authorization
+    - Websocket Logic
+    - Database creation
+    - Testing
