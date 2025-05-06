@@ -26,7 +26,7 @@ const LoginPage = () => {
     const { error, url } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'http://localhost:3000/oauth/callback',
+        redirectTo: `${window.location.origin}/oauth/callback`,
       },
     });
 

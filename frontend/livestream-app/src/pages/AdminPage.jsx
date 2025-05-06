@@ -8,8 +8,8 @@ import { AuthContext } from '../AuthContext';
 import { getUTCPartsFromLocal, getLocalInputsFromUTC } from '../utils/time_utils';
 import { useNavigate } from 'react-router-dom';
 
-const API_BASE_URL = 'http://localhost:8000';
-const WS_BASE_URL = 'ws://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
+const WS_BASE_URL = process.env.REACT_APP_WS_URL;
 
 const AdminPage = () => {
   const { user, loading } = useContext(AuthContext);
@@ -151,7 +151,7 @@ const AdminPage = () => {
 
   const markAsLive = async (id) => {
   try {
-    await fetch(`http://localhost:8000/broadcast/${id}/go_live`, {
+    await fetch(`${API_BASE_URL}/broadcast/${id}/go_live`, {
       method: 'POST',
     });
     alert('Broadcast marked as live!');
@@ -164,7 +164,7 @@ const AdminPage = () => {
 useEffect(() => {
   const fetchLiveBroadcast = async () => {
     try {
-      const res = await fetch('http://localhost:8000/broadcast/live');
+      const res = await fetch(`${API_BASE_URL}/broadcast/live`);
       if (!res.ok) throw new Error('No live broadcast');
       const data = await res.json();
       setCurrentBroadcastUrl(data.url);
