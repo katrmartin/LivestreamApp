@@ -5,6 +5,9 @@ import '../styles/global.css';
 import '../styles/responsive.css';
 import { AuthContext } from '../AuthContext';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
+const WS_BASE_URL = process.env.REACT_APP_WS_URL;
+
 const StreamPage = () => {
   const { user } = useContext(AuthContext);
   const [url, setUrl] = useState('');
@@ -53,7 +56,7 @@ const StreamPage = () => {
   
 
   useEffect(() => {
-    fetch('http://localhost:8000/live_url')
+    fetch(`${API_BASE_URL}/live_url`)
       .then((res) => res.text())
       .then((text) => {
         if (text.includes('youtube.com')) {
@@ -67,7 +70,7 @@ const StreamPage = () => {
         console.error(err);
       });
 
-    fetch('http://localhost:8000/broadcasts')
+    fetch(`${API_BASE_URL}/broadcasts`)
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0) {
@@ -80,7 +83,7 @@ const StreamPage = () => {
   }, []);
 
   useEffect(() => {
-    const scoreSocket = new WebSocket('ws://localhost:8000/ws/score');
+    const scoreSocket = new WebSocket(`${WS_BASE_URL}/ws/score`);
     scoreSocket.onopen = () => setStatus('Connected to live scoreboard');
     scoreSocket.onerror = () => setStatus('WebSocket error');
     scoreSocket.onclose = () => setStatus('Disconnected');
@@ -98,7 +101,7 @@ const StreamPage = () => {
   
 
   useEffect(() => {
-    chatSocketRef.current = new WebSocket('ws://localhost:8000/ws/chat');
+    chatSocketRef.current = new WebSocket(`${WS_BASE_URL}/ws/chat`);
     chatSocketRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setChatMessages((prev) => [...prev, data]);

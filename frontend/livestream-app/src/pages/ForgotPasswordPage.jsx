@@ -5,6 +5,10 @@ import '../styles/login.css';
 import '../styles/global.css';
 import '../styles/responsive.css';
 
+const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
+const redirectHost = window.location.origin;
+
+
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -16,7 +20,7 @@ const ForgotPasswordPage = () => {
     setMessage('');
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'http://localhost:3000/reset-password',
+      redirectTo: `${redirectHost}/reset-password`,
     });
 
     if (error) {

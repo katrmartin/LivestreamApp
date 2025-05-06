@@ -1,41 +1,46 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { AuthContext } from '../AuthContext';
 
 const OAuthCallback = () => {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext); // optional if you want to check user
 
   useEffect(() => {
     const finalizeLogin = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data, error } = await supabase.auth.getSessionFromUrl();
 
-      if (session?.user) {
-        const email = session.user.email;
+      if (error) {
+        console.error('OAuth error:', error.message);
+        navigate('/login');
+        return;
+      }
 
-        const { data, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('email', email)
-          .single();
+      const session = data?.session;
+      const user = session?.user;
 
-        if (error || !data) {
-          console.error('Error fetching user info:', error?.message);
-          navigate('/login');
-          return;
-        }
+      if (user) {
+        const email = user.email;
 
-        const { data: existingUser } = await supabase
+        // Optional: insert user into your custom 'users' table
+        const { data: existingUser, error: fetchError } = await supabase
           .from('users')
           .select('id')
           .eq('email', email)
           .single();
 
-        if (!existingUser) {
-          await supabase.from('users').insert({ email, pay_status: false });
+        if (fetchError) {
+          console.error('User fetch error:', fetchError.message);
         }
 
+        if (!existingUser) {
+          const { error: insertError } = await supabase
+            .from('users')
+            .insert({ email, pay_status: false });
+
+          if (insertError) {
+            console.error('User insert error:', insertError.message);
+          }
+        }
 
         navigate('/home');
       } else {

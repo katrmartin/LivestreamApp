@@ -5,6 +5,8 @@ import '../styles/login.css';
 import '../styles/global.css';
 import '../styles/responsive.css';
 
+const redirectHost = window.location.origin;
+
 const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -22,7 +24,7 @@ const RegisterPage = () => {
       password,
       options: {
         data: { full_name: name },
-        redirectTo: 'http://localhost:3000/oauth/callback',
+        redirectTo: `${redirectHost}/oauth/callback`,
       },
     });
 
@@ -38,7 +40,7 @@ const RegisterPage = () => {
     const { error, url } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'http://localhost:3000/oauth/callback',
+        redirectTo: `${redirectHost}/oauth/callback`,
       },
     });
 
