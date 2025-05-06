@@ -118,7 +118,7 @@ def create_broadcast(youtube, title, scheduled_start, description="", max_retrie
 
 
 def schedule_broadcast(title: str, month: int, day: int, time_str: str, description: str = ""):
-    youtube = authenticate_youtube()
+    youtube = get_youtube_client()
     scheduled_start = build_scheduled_start_utc(month, day, time_str)
     return create_broadcast(youtube, title, scheduled_start, description)
 
@@ -126,7 +126,7 @@ def schedule_broadcast(title: str, month: int, day: int, time_str: str, descript
 def get_scheduled_broadcasts():
     """Fetch all scheduled (upcoming) YouTube broadcasts."""
     try:
-        youtube = authenticate_youtube()
+        youtube = get_youtube_client()
         request = youtube.liveBroadcasts().list(
             part="snippet,contentDetails,status",
             broadcastStatus="upcoming",
@@ -156,7 +156,7 @@ def get_scheduled_broadcasts():
 def update_broadcast(broadcast_id: str, title: str, scheduled_start: datetime.datetime):
     """Update an existing YouTube broadcast."""
     try:
-        youtube = authenticate_youtube()
+        youtube = get_youtube_client()
         start_time = scheduled_start.isoformat() + "Z"
         end_time = (scheduled_start + datetime.timedelta(hours=3)).isoformat() + "Z"
 
@@ -187,7 +187,7 @@ def update_broadcast(broadcast_id: str, title: str, scheduled_start: datetime.da
 def delete_broadcast(broadcast_id: str):
     """Delete a broadcast from YouTube."""
     try:
-        youtube = authenticate_youtube()
+        youtube = get_youtube_client()
         youtube.liveBroadcasts().delete(id=broadcast_id).execute()
         return True
     except Exception as e:
@@ -197,7 +197,7 @@ def delete_broadcast(broadcast_id: str):
 def get_current_broadcast():
     """Return the currently active or next starting broadcast."""
     try:
-        youtube = authenticate_youtube()
+        youtube = get_youtube_client()
 
         # Try active broadcast
         response = youtube.liveBroadcasts().list(
