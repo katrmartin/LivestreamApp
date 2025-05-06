@@ -60,21 +60,32 @@ const HomePage = () => {
     setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <>
       <header className="hero-new">
         <div className="hero-box">
           <nav className="hero-nav">
-            <ul className="nav-left">
+            <div className="nav-header">
+              <div className="nav-logo">
+                <Link to="/">Logo</Link>
+              </div>
+              <button className="hamburger-menu" onClick={toggleMenu}>
+                ☰
+              </button>
+            </div>
+            <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
               <li><Link to="/">Home</Link></li>
-            </ul>
-            <ul className="nav-right">
               <li><Link to="/stream">Stream</Link></li>
               {user?.is_admin && (
                 <li><a href="/admin">Admin</a></li>
               )}
             </ul>
-
             {user && (
               <div className="nav-user-controls">
                 <span className="user-greeting">Hi {displayName}!</span>

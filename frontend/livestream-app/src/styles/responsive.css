@@ -1,81 +1,165 @@
+/* General Mobile Adjustments */
+@media (max-width: 768px) {
+  /* Admin Page */
+  .admin-page {
+    padding: 15px;
+  }
+
+  .scheduled-broadcasts,
+  .edit-broadcast,
+  .current-broadcast,
+  .score-controls {
+    padding: 15px;
+  }
+
+  .broadcast-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  /* Donation Popup */
+  .donation-content {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .donation-buttons {
+    flex-direction: column;
+  }
+
+  /* Stream Page */
+  .stream-chat-layout {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stream-video {
+    width: 100%;
+  }
+
+  .chat-box {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    margin-top: 20px;
+    width: 90%;
+    max-width: 300px;
+    align-self: center;
+  }
+
+  .score-bug {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 20px;
+  }
+
+  .upcoming-banner,
+  .no-stream-message {
+    width: 90%;
+    padding: 20px;
+  }
+
+  /* Login Page */
+  .login-container h1 {
+    font-size: 12vw;
+  }
+}
+
 @media (max-width: 600px) {
-    .hero-nav {
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    .hero-nav ul {
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-  
-    .nav-user-controls {
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-    }
-  
-    .info-section {
-      padding: 20px 10px;
-    }
-  
-    .info-button {
-      width: 100%;
-      max-width: 300px;
-    }
+  /* More compressed settings for smaller phones */
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
   }
-  
-  @media (max-width: 768px) {
-    .hero-content {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px 10px;
-    }
-  
-    .hero-left-text {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-  
-    .hero-left-text h2 {
-      font-size: 8vw;
-    }
-  
-    .hero-left-text p {
-      font-size: 5vw;
-    }
-  
-    .hero-title-container {
-      position: relative;
-      bottom: 0;
-      left: 0;
-      transform: none;
-      margin-top: 20px;
-    }
-  
-    .hero-title-container h1 {
-      font-size: 10vw;
-    }
-  
-    .hero-nav {
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    .hero-nav ul {
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
-      padding: 0;
-    }
-  
-    .nav-user-controls {
-      flex-direction: column;
-      margin-top: 10px;
-      gap: 5px;
-    }
+
+  .nav-user-controls {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
   }
-  
+
+  .info-section {
+    padding: 20px 10px;
+  }
+
+  .info-button {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+
+
+/* Hamburger button */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Mobile Nav */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .hero-nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-user-controls {
+    margin-top: 10px;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .hero-left-text {
+    margin: 0;
+    text-align: center;
+  }
+
+  .hero-right-image {
+    margin: 0;
+  }
+
+  .model-wrapper {
+    width: 300px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .hero-right-image model-viewer,
+  .hero-right-image img {
+    width: 50%;
+    max-width: 100px;
+    height: auto;
+  }
+}
