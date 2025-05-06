@@ -1,12 +1,13 @@
 # youtube_utils.py
 
 import os
+import json
 import time
 import random
 import datetime
 from fastapi import HTTPException
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
+from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from app.helpers.time_utils import build_scheduled_start_utc
@@ -14,7 +15,7 @@ from app.config import settings
 
 SCOPES = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
-
+'''
 def authenticate_youtube():
     """Authenticate and return the YouTube API client."""
     creds = None
@@ -26,7 +27,47 @@ def authenticate_youtube():
         with open("token.json", "w") as token:
             token.write(creds.to_json())
     return build("youtube", "v3", credentials=creds)
+'''
 
+def ensure_client_secrets_file():
+    if not os.path.exists("client_secrets.json"):
+        secrets = os.getenv("GOOGLE_CLIENT_SECRETS")
+        if not secrets:
+            raise RuntimeError("Missing GOOGLE_CLIENT_SECRETS environment variable.")
+        with open("client_secrets.json", "w") as f:
+            f.write(secrets)
+
+def get_youtube_auth_url():
+    ensure_client_secrets_file()
+    flow = Flow.from_client_secrets_file(
+        settings.YT_CLIENT_SECRETS_PATH,
+        scopes=SCOPES,
+        redirect_uri=settings.YT_REDIRECT_URI
+    )
+    auth_url, _ = flow.authorization_url(
+        access_type='offline',
+        include_granted_scopes='true',
+        prompt='consent'
+    )
+    return auth_url
+
+def handle_youtube_callback(full_url: str) -> Credentials:
+    flow = Flow.from_client_secrets_file(
+        settings.YT_CLIENT_SECRETS_PATH,
+        scopes=SCOPES,
+        redirect_uri=settings.YT_REDIRECT_URI
+    )
+    flow.fetch_token(authorization_response=full_url)
+    creds = flow.credentials
+    with open("token.json", "w") as token_file:
+        token_file.write(creds.to_json())
+    return creds
+
+def get_youtube_client():
+    if not os.path.exists("token.json"):
+        raise FileNotFoundError("YouTube token not found. Please authenticate.")
+    creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    return build("youtube", "v3", credentials=creds)
 
 def create_broadcast(youtube, title, scheduled_start, description="", max_retries=5):
     """Create a new YouTube live broadcast."""

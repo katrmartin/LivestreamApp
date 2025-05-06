@@ -1,18 +1,35 @@
-from fastapi import APIRouter, HTTPException
-from fastapi.responses import PlainTextResponse
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import PlainTextResponse, RedirectResponse
 from typing import List
 from datetime import date, time, datetime
 from app.models.broadcast_models import BroadcastRequest, BroadcastResponse
 from app.services.supabase_client import supabase
-from app.services.youtube_utils import (
+from app.services import (
     schedule_broadcast,
     update_broadcast as youtube_update_broadcast,
     delete_broadcast as youtube_delete_broadcast,
-    get_current_broadcast
+    get_youtube_auth_url, handle_youtube_callback
 )
 
 router = APIRouter()
 
+
+@router.get("/youtube/auth")
+def start_youtube_auth():
+    """Redirects users to YouTube OAuth consent screen"""
+    auth_url = get_youtube_auth_url()
+    return RedirectResponse(auth_url)
+
+@router.get("/youtube/callback")
+async def youtube_auth_callback(request: Request):
+    """Handles OAuth redirect and stores credentials"""
+    try:
+        full_url = str(request.url)
+        handle_youtube_callback(full_url)
+        return RedirectResponse("/admin")
+    except Exception as e:
+        print(f"OAuth callback failed: {e}")
+        return RedirectResponse("/error")
 
 def safe_parse_time_string(raw: str) -> str:
     """Ensure HH:MM format with padding and validate."""
