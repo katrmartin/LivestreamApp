@@ -51,6 +51,19 @@ StampedeStream is a full-stack livestreaming web application designed for live s
 
  - ./run-backend2.sh
 
+### .env templates
+
+ - backend:
+   - SUPABASE_URL=your-supabase-url
+   - SUPABASE_KEY=your-service-role-key
+   - JWT_SECRET=your-jwt-secret
+
+
+ - frontend:
+   - REACT_APP_SUPABASE_URL=your-supabase-url
+   - REACT_APP_SUPABASE_ANON_KEY=your-supabase-anon-key
+   - REACT_APP_BACKEND_URL=http://localhost:8000 
+
 ---
 
 ### 🙌 Team
