@@ -83,3 +83,11 @@ StampedeStream is a full-stack livestreaming web application designed for live s
     - UI Design
     - UX Development 
     - Tutorial Documentation
+
+  - Katie:
+    - Project manager
+    - Backend development
+    - Admin dashboard 
+    - YouTube integration
+    - Broadcast/streaming setup
+    - Deployment
