@@ -41,7 +41,7 @@ def ensure_client_secrets_file():
             raise RuntimeError("Missing GOOGLE_CLIENT_SECRETS environment variable.")
         with open("client_secrets.json", "w") as f:
             f.write(secrets)
-"""
+
 
 def get_youtube_auth_url():
     try:
