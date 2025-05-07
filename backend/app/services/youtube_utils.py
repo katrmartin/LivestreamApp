@@ -63,11 +63,8 @@ def get_youtube_auth_url():
     return auth_url
 
 
-def handle_youtube_callback(full_url: str) -> Credentials:
-    try:
-        config = json.loads(settings.GOOGLE_CLIENT_SECRETS)
-    except Exception:
-        raise RuntimeError("Invalid GOOGLE_CLIENT_SECRETS format. Must be a valid JSON string.")
+def handle_youtube_callback(full_url: str, user_id: str) -> Credentials:
+    config = json.loads(settings.GOOGLE_CLIENT_SECRETS)
 
     flow = Flow.from_client_config(
         config,
@@ -78,16 +75,13 @@ def handle_youtube_callback(full_url: str) -> Credentials:
     flow.fetch_token(authorization_response=full_url)
     creds = flow.credentials
 
-   # Save token to Supabase
-    token_dict = json.loads(creds.to_json())  # ← Parse into a real dictionary
-    supabase.table("youtube_tokens").upsert({
-        "token_json": token_dict,  # ← Store as a JSON object, not a string
-        "updated_at": datetime.datetime.now().isoformat()
-    }).execute()
+    token_dict = json.loads(creds.to_json())
 
-    # Optionally, still save locally for convenience
-    with open("token.json", "w") as token_file:
-        token_file.write(token_json)
+    supabase.table("youtube_tokens").upsert({
+        "user_id": user_id,
+        "token_json": token_dict,
+        "updated_at": datetime.datetime.utcnow().isoformat()
+    }).execute()
 
     return creds
 
