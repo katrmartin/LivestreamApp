@@ -96,22 +96,23 @@ def get_youtube_client():
             .limit(1) \
             .execute()
 
-        print("[YouTube] Raw Supabase response:", response)
+        print("[YouTube] Supabase response:", response)
 
         if not response.data:
             print("[YouTube] No token found in Supabase.")
-            raise FileNotFoundError("No YouTube token stored.")
+            raise FileNotFoundError("YouTube token not found.")
 
         token_data = response.data[0]["token_json"]
         print("[YouTube] Token JSON:", token_data)
 
-        creds = Credentials.from_authorized_user_info(token_data)
+        creds = Credentials.from_authorized_user_info(token_data, SCOPES)
         print("[YouTube] Credentials built successfully.")
         return build("youtube", "v3", credentials=creds)
 
     except Exception as e:
         print(f"[YouTube] Failed to create YouTube client: {e}")
         raise
+
 
 def create_broadcast(youtube, title, scheduled_start, description="", max_retries=5):
     """Create a new YouTube live broadcast."""
