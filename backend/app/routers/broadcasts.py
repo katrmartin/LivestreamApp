@@ -29,14 +29,15 @@ def start_youtube_auth():
 
 @router.get("/youtube/callback")
 async def youtube_auth_callback(request: Request):
-    """Handles OAuth redirect and stores credentials"""
     try:
         full_url = str(request.url)
-        handle_youtube_callback(full_url)
+        user_id = "your-supabase-user-id-here"  # 🧪 TEMPORARY placeholder
+        handle_youtube_callback(full_url, user_id)
         return RedirectResponse("https://musical-bombolone-72e781.netlify.app/admin")
     except Exception as e:
         print(f"OAuth callback failed: {e}")
         return RedirectResponse("/error")
+
 
 def safe_parse_time_string(raw: str) -> str:
     """Ensure HH:MM format with padding and validate."""
