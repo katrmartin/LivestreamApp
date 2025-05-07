@@ -63,27 +63,36 @@ def get_youtube_auth_url():
     return auth_url
 
 
-def handle_youtube_callback(full_url: str, user_id: str) -> Credentials:
-    config = json.loads(settings.GOOGLE_CLIENT_SECRETS)
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+from app.services.supabase_client import supabase
 
-    flow = Flow.from_client_config(
-        config,
-        scopes=SCOPES,
-        redirect_uri=settings.YT_REDIRECT_URI
-    )
+def get_youtube_client():
+    try:
+        print("[YouTube] Fetching token from Supabase...")
+        response = supabase.table("youtube_tokens") \
+            .select("token_json") \
+            .order("updated_at", desc=True) \
+            .limit(1) \
+            .execute()
 
-    flow.fetch_token(authorization_response=full_url)
-    creds = flow.credentials
+        print("[YouTube] Raw Supabase response:", response)
 
-    token_dict = json.loads(creds.to_json())
+        if not response.data:
+            print("[YouTube] No token found in Supabase.")
+            raise FileNotFoundError("No YouTube token stored.")
 
-    supabase.table("youtube_tokens").upsert({
-        "user_id": user_id,
-        "token_json": token_dict,
-        "updated_at": datetime.datetime.utcnow().isoformat()
-    }).execute()
+        token_data = response.data[0]["token_json"]
+        print("[YouTube] Token JSON:", token_data)
 
-    return creds
+        creds = Credentials.from_authorized_user_info(token_data)
+        print("[YouTube] Credentials built successfully.")
+        return build("youtube", "v3", credentials=creds)
+
+    except Exception as e:
+        print(f"[YouTube] Failed to create YouTube client: {e}")
+        raise
+
 
 
 def get_youtube_client():
