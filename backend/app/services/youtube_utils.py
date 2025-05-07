@@ -13,9 +13,14 @@ from googleapiclient.errors import HttpError
 from app.helpers.time_utils import build_scheduled_start_utc
 from app.config import settings
 
-SCOPES = ["https://www.googleapis.com/auth/youtube.force-ssl"]
+SCOPES = [
+    "https://www.googleapis.com/auth/youtube.force-ssl",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid"
+]
 
-'''
+"""
 def authenticate_youtube():
     """Authenticate and return the YouTube API client."""
     creds = None
