@@ -79,9 +79,9 @@ def handle_youtube_callback(full_url: str) -> Credentials:
     creds = flow.credentials
 
    # Save token to Supabase
-    token_json = creds.to_json()
+    token_dict = json.loads(creds.to_json())  # ← Parse into a real dictionary
     supabase.table("youtube_tokens").upsert({
-        "token_json": token_json,
+        "token_json": token_dict,  # ← Store as a JSON object, not a string
         "updated_at": datetime.datetime.now().isoformat()
     }).execute()
 
@@ -93,16 +93,17 @@ def handle_youtube_callback(full_url: str) -> Credentials:
 
 
 def get_youtube_client():
-    # Try to load token from Supabase
-    response = supabase.table("youtube_tokens").select("token_json").order("updated_at", desc=True).limit(1).execute()
-    if response.data:
-        token_json = response.data[0]["token_json"]
-        creds = Credentials.from_authorized_user_info(json.loads(token_json), SCOPES)
-        return build("youtube", "v3", credentials=creds)
+    response = supabase.table("youtube_tokens") \
+        .select("token_json") \
+        .order("updated_at", desc=True) \
+        .limit(1) \
+        .execute()
 
-    # Fallback to local file if Supabase is empty
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    if response.data:
+        token_data = response.data[0]["token_json"]
+        
+        # token_data is already a dict thanks to jsonb, no need to json.loads
+        creds = Credentials.from_authorized_user_info(token_data, SCOPES)
         return build("youtube", "v3", credentials=creds)
 
     raise FileNotFoundError("YouTube token not found. Please authenticate.")
