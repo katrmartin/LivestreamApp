@@ -77,3 +77,9 @@ StampedeStream is a full-stack livestreaming web application designed for live s
     - Websocket Logic
     - Database creation
     - Testing
+
+  - Berenice:
+    - Contract 
+    - UI Design
+    - UX Development 
+    - Tutorial Documentation
