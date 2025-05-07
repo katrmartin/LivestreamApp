@@ -12,6 +12,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from app.helpers.time_utils import build_scheduled_start_utc
 from app.config import settings
+from app.services.supabase_client import supabase  # Import your Supabase client
 
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.force-ssl",
@@ -41,7 +42,6 @@ def ensure_client_secrets_file():
             raise RuntimeError("Missing GOOGLE_CLIENT_SECRETS environment variable.")
         with open("client_secrets.json", "w") as f:
             f.write(secrets)
-
 
 def get_youtube_auth_url():
     try:
@@ -78,17 +78,34 @@ def handle_youtube_callback(full_url: str) -> Credentials:
     flow.fetch_token(authorization_response=full_url)
     creds = flow.credentials
 
+   # Save token to Supabase
+    token_json = creds.to_json()
+    supabase.table("youtube_tokens").upsert({
+        "token_json": token_json,
+        "updated_at": datetime.datetime.now().isoformat()
+    }).execute()
+
+    # Optionally, still save locally for convenience
     with open("token.json", "w") as token_file:
-        token_file.write(creds.to_json())
+        token_file.write(token_json)
 
     return creds
 
 
 def get_youtube_client():
-    if not os.path.exists("token.json"):
-        raise FileNotFoundError("YouTube token not found. Please authenticate.")
-    creds = Credentials.from_authorized_user_file("token.json", SCOPES)
-    return build("youtube", "v3", credentials=creds)
+    # Try to load token from Supabase
+    response = supabase.table("youtube_tokens").select("token_json").order("updated_at", desc=True).limit(1).execute()
+    if response.data:
+        token_json = response.data[0]["token_json"]
+        creds = Credentials.from_authorized_user_info(json.loads(token_json), SCOPES)
+        return build("youtube", "v3", credentials=creds)
+
+    # Fallback to local file if Supabase is empty
+    if os.path.exists("token.json"):
+        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+        return build("youtube", "v3", credentials=creds)
+
+    raise FileNotFoundError("YouTube token not found. Please authenticate.")
 
 def create_broadcast(youtube, title, scheduled_start, description="", max_retries=5):
     """Create a new YouTube live broadcast."""
