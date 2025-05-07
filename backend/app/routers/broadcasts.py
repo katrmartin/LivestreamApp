@@ -13,6 +13,13 @@ from app.services.youtube_utils import (
 
 router = APIRouter()
 
+@router.get("/youtube/status")
+def youtube_auth_status():
+    try:
+        get_youtube_auth_url()
+        return {"authenticated": True}
+    except Exception:
+        return {"authenticated": False}
 
 @router.get("/youtube/auth")
 def start_youtube_auth():

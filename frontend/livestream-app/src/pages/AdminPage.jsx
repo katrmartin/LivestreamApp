@@ -161,6 +161,11 @@ const AdminPage = () => {
   }
 };
 
+const handleConnectYouTube = () => {
+  // Open the backend's /youtube/auth endpoint in a new tab
+  window.open(`${API_BASE_URL}/youtube/auth`, "_blank", "noopener,noreferrer");
+};
+
 useEffect(() => {
   const fetchLiveBroadcast = async () => {
     try {
@@ -225,6 +230,7 @@ useEffect(() => {
             <>
               <div className="welcome-section">
                 <h1>Welcome</h1>
+                <button className="btn create-btn" onClick={handleConnectYouTube}>Connect YouTube</button>
                 <button className="btn create-btn" onClick={handleCreateNew}>Create Broadcast</button>
               </div>
 
