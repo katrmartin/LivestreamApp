@@ -81,7 +81,7 @@ def handle_youtube_callback(full_url: str) -> Credentials:
    # Save token to Supabase
     token_json = creds.to_json()
     supabase.table("youtube_tokens").upsert({
-        "token_json": token_json,
+        "token_json": json.loads(token_json),
         "updated_at": datetime.datetime.now().isoformat()
     }).execute()
 
@@ -97,7 +97,7 @@ def get_youtube_client():
     response = supabase.table("youtube_tokens").select("token_json").order("updated_at", desc=True).limit(1).execute()
     if response.data:
         token_json = response.data[0]["token_json"]
-        creds = Credentials.from_authorized_user_info(json.loads(token_json), SCOPES)
+        creds = Credentials.from_authorized_user_info(token_json, SCOPES)
         return build("youtube", "v3", credentials=creds)
 
     # Fallback to local file if Supabase is empty
