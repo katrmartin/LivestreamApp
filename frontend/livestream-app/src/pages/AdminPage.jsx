@@ -162,8 +162,8 @@ const AdminPage = () => {
 };
 
 const handleConnectYouTube = () => {
-  // Open the backend's /youtube/auth endpoint in a new tab
-  window.open(`${API_BASE_URL}/youtube/auth`, "_blank", "noopener,noreferrer");
+  // Open the backend's /youtube/auth endpoint
+  window.location.href = `${API_BASE_URL}/youtube/auth`;
 };
 
 useEffect(() => {

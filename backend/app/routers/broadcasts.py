@@ -33,7 +33,7 @@ async def youtube_auth_callback(request: Request):
     try:
         full_url = str(request.url)
         handle_youtube_callback(full_url)
-        return RedirectResponse("/admin")
+        return RedirectResponse("https://musical-bombolone-72e781.netlify.app/admin")
     except Exception as e:
         print(f"OAuth callback failed: {e}")
         return RedirectResponse("/error")
