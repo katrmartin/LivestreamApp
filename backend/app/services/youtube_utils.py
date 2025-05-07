@@ -1,6 +1,7 @@
 # youtube_utils.py
 
 import os
+import logging
 import json
 import time
 import random
@@ -87,30 +88,32 @@ def handle_youtube_callback(full_url: str, user_id: str) -> Credentials:
 
 
 
+logger = logging.getLogger(__name__)
+
 def get_youtube_client():
     try:
-        print("[YouTube] Fetching token from Supabase...")
+        logger.info("[YouTube] Fetching token from Supabase...")
         response = supabase.table("youtube_tokens") \
             .select("token_json") \
             .order("updated_at", desc=True) \
             .limit(1) \
             .execute()
 
-        print("[YouTube] Supabase response:", response)
+        logger.info(f"[YouTube] Supabase response: {response}")
 
         if not response.data:
-            print("[YouTube] No token found in Supabase.")
+            logger.info("[YouTube] No token found in Supabase.")
             raise FileNotFoundError("YouTube token not found.")
 
         token_data = response.data[0]["token_json"]
-        print("[YouTube] Token JSON:", token_data)
+        logger.info(f"[YouTube] Token JSON: {token_data}")
 
-        creds = Credentials.from_authorized_user_info(token_data, SCOPES)
-        print("[YouTube] Credentials built successfully.")
+        creds = Credentials.from_authorized_user_info(token_data)
+        logger.info("[YouTube] Credentials built successfully.")
         return build("youtube", "v3", credentials=creds)
 
     except Exception as e:
-        print(f"[YouTube] Failed to create YouTube client: {e}")
+        logger.error(f"[YouTube] Failed to create YouTube client: {e}")
         raise
 
 
