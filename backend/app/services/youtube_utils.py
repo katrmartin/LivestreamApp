@@ -28,7 +28,7 @@ def authenticate_youtube():
             token.write(creds.to_json())
     return build("youtube", "v3", credentials=creds)
 '''
-
+"""
 def ensure_client_secrets_file():
     if not os.path.exists("client_secrets.json"):
         secrets = os.getenv("GOOGLE_CLIENT_SECRETS")
@@ -36,14 +36,20 @@ def ensure_client_secrets_file():
             raise RuntimeError("Missing GOOGLE_CLIENT_SECRETS environment variable.")
         with open("client_secrets.json", "w") as f:
             f.write(secrets)
+"""
 
 def get_youtube_auth_url():
-    ensure_client_secrets_file()
-    flow = Flow.from_client_secrets_file(
-        settings.GOOGLE_CLIENT_SECRETS,
+    try:
+        config = json.loads(settings.GOOGLE_CLIENT_SECRETS)
+    except Exception:
+        raise RuntimeError("Invalid GOOGLE_CLIENT_SECRETS format. Must be a valid JSON string.")
+
+    flow = Flow.from_client_config(
+        config,
         scopes=SCOPES,
         redirect_uri=settings.YT_REDIRECT_URI
     )
+
     auth_url, _ = flow.authorization_url(
         access_type='offline',
         include_granted_scopes='true',
@@ -51,17 +57,27 @@ def get_youtube_auth_url():
     )
     return auth_url
 
+
 def handle_youtube_callback(full_url: str) -> Credentials:
-    flow = Flow.from_client_secrets_file(
-        settings.GOOGLE_CLIENT_SECRETS,
+    try:
+        config = json.loads(settings.GOOGLE_CLIENT_SECRETS)
+    except Exception:
+        raise RuntimeError("Invalid GOOGLE_CLIENT_SECRETS format. Must be a valid JSON string.")
+
+    flow = Flow.from_client_config(
+        config,
         scopes=SCOPES,
         redirect_uri=settings.YT_REDIRECT_URI
     )
+
     flow.fetch_token(authorization_response=full_url)
     creds = flow.credentials
+
     with open("token.json", "w") as token_file:
         token_file.write(creds.to_json())
+
     return creds
+
 
 def get_youtube_client():
     if not os.path.exists("token.json"):
