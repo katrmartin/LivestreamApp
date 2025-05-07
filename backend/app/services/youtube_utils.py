@@ -40,7 +40,7 @@ def ensure_client_secrets_file():
 def get_youtube_auth_url():
     ensure_client_secrets_file()
     flow = Flow.from_client_secrets_file(
-        settings.YT_CLIENT_SECRETS_PATH,
+        settings.GOOGLE_CLIENT_SECRETS,
         scopes=SCOPES,
         redirect_uri=settings.YT_REDIRECT_URI
     )
@@ -53,7 +53,7 @@ def get_youtube_auth_url():
 
 def handle_youtube_callback(full_url: str) -> Credentials:
     flow = Flow.from_client_secrets_file(
-        settings.YT_CLIENT_SECRETS_PATH,
+        settings.GOOGLE_CLIENT_SECRETS,
         scopes=SCOPES,
         redirect_uri=settings.YT_REDIRECT_URI
     )
