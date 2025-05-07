@@ -20,7 +20,7 @@ SCOPES = [
     "openid"
 ]
 
-"""
+'''
 def authenticate_youtube():
     """Authenticate and return the YouTube API client."""
     creds = None
@@ -33,7 +33,7 @@ def authenticate_youtube():
             token.write(creds.to_json())
     return build("youtube", "v3", credentials=creds)
 '''
-"""
+
 def ensure_client_secrets_file():
     if not os.path.exists("client_secrets.json"):
         secrets = os.getenv("GOOGLE_CLIENT_SECRETS")
