@@ -81,7 +81,7 @@ def handle_youtube_callback(full_url: str) -> Credentials:
    # Save token to Supabase
     token_json = creds.to_json()
     supabase.table("youtube_tokens").upsert({
-        "token_json": json.loads(token_json),
+        "token_json": token_json,
         "updated_at": datetime.datetime.now().isoformat()
     }).execute()
 
