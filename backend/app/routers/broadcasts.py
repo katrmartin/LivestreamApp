@@ -31,7 +31,7 @@ def start_youtube_auth():
 async def youtube_auth_callback(request: Request):
     try:
         full_url = str(request.url)
-        user_id = "your-supabase-user-id-here"  # 🧪 TEMPORARY placeholder
+        user_id = "b88805e8-5aeb-443f-aec9-4240af61d3c2"  # 🧪 TEMPORARY placeholder
         handle_youtube_callback(full_url, user_id)
         return RedirectResponse("https://musical-bombolone-72e781.netlify.app/admin")
     except Exception as e:
