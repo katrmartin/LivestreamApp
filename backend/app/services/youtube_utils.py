@@ -63,9 +63,29 @@ def get_youtube_auth_url():
     return auth_url
 
 
-from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build
-from app.services.supabase_client import supabase
+def handle_youtube_callback(full_url: str, user_id: str) -> Credentials:
+    config = json.loads(settings.GOOGLE_CLIENT_SECRETS)
+
+    flow = Flow.from_client_config(
+        config,
+        scopes=SCOPES,
+        redirect_uri=settings.YT_REDIRECT_URI
+    )
+
+    flow.fetch_token(authorization_response=full_url)
+    creds = flow.credentials
+
+    token_dict = json.loads(creds.to_json())
+
+    supabase.table("youtube_tokens").upsert({
+        "user_id": user_id,
+        "token_json": token_dict,
+        "updated_at": datetime.datetime.utcnow().isoformat()
+    }).execute()
+
+    return creds
+
+
 
 def get_youtube_client():
     try:
@@ -92,24 +112,6 @@ def get_youtube_client():
     except Exception as e:
         print(f"[YouTube] Failed to create YouTube client: {e}")
         raise
-
-
-
-def get_youtube_client():
-    response = supabase.table("youtube_tokens") \
-        .select("token_json") \
-        .order("updated_at", desc=True) \
-        .limit(1) \
-        .execute()
-
-    if response.data:
-        token_data = response.data[0]["token_json"]
-        
-        # token_data is already a dict thanks to jsonb, no need to json.loads
-        creds = Credentials.from_authorized_user_info(token_data, SCOPES)
-        return build("youtube", "v3", credentials=creds)
-
-    raise FileNotFoundError("YouTube token not found. Please authenticate.")
 
 def create_broadcast(youtube, title, scheduled_start, description="", max_retries=5):
     """Create a new YouTube live broadcast."""
