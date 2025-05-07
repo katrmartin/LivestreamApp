@@ -97,7 +97,7 @@ def get_youtube_client():
     response = supabase.table("youtube_tokens").select("token_json").order("updated_at", desc=True).limit(1).execute()
     if response.data:
         token_json = response.data[0]["token_json"]
-        creds = Credentials.from_authorized_user_info(token_json, SCOPES)
+        creds = Credentials.from_authorized_user_info(json.loads(token_json), SCOPES)
         return build("youtube", "v3", credentials=creds)
 
     # Fallback to local file if Supabase is empty
