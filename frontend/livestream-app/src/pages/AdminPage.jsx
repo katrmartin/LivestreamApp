@@ -161,6 +161,15 @@ const AdminPage = () => {
   }
 };
 
+  const markAsDone = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to end this broadcast? This will remove it from the platform.");
+    if (confirmed) {
+      await handleDelete(id);
+      alert('Broadcast marked as done!');
+    }
+  };
+
+
 const handleConnectYouTube = () => {
   // Open the backend's /youtube/auth endpoint
   window.location.href = `${API_BASE_URL}/youtube/auth`;
@@ -246,11 +255,26 @@ useEffect(() => {
                       })()}
                     </div>
                     <button className="btn edit-btn" onClick={() => handleEdit(broadcast)}>Edit</button>
+
+                    <div className="broadcast-actions">
                     {!broadcast.is_live && (
-                      <button className="btn go-live-btn" onClick={() => markAsLive(broadcast.id)}>
-                        Broadcast is Live!
+                      <button className="btn go-live-btn" onClick={() => {
+                        const confirmed = window.confirm('Are you sure you want to mark this broadcast as live? This will make it visible to viewers on the stream page');
+                        if (confirmed) {
+                          markAsLive(broadcast.id);
+                        }
+                      }}
+                    >
+                        Live
                       </button>
                     )}
+                    <button
+                      className="btn end-broadcast-btn"
+                      onClick={() => markAsDone(broadcast.id)}
+                    >
+                      End
+                    </button>
+                    </div>
                   </div>
                 ))}
               </div>

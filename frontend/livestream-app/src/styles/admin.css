@@ -65,6 +65,11 @@
     color: #ccc;
     margin: 5px 0 0;
   }
+
+  .broadcast-actions {
+    display: flex;
+    gap: 10px;
+  }
   
   .edit-broadcast {
     background: #1a1a1a;
@@ -100,6 +105,26 @@
     color: white;
     font-size: 1rem;
   }
+
+  .go-live-btn {
+    background-color: #555;
+    color: white;
+  }
+
+  .go-live-btn:hover {
+    background-color: #6bde6b;
+    color:#000000;
+  }
+
+  .end-broadcast-btn {
+    background-color: #555;
+    color: white;
+  }
+
+  .end-broadcast-btn:hover {
+    background-color: #cc0000;
+    color:#000000;
+  }
   
   .button-group {
     display: flex;
@@ -109,7 +134,9 @@
   
   .save-btn,
   .delete-btn,
-  .back-btn {
+  .back-btn,
+  .go-live-btn,
+  .end-broadcast-btn {
     padding: 10px 20px;
     font-weight: bold;
     border-radius: 25px;
@@ -145,7 +172,7 @@
     background-color: #777;
   }
 
-  .edit-btn, .go-live-btn {
+  .edit-btn {
     background-color: #555;
     color: white;
     padding: 10px;
