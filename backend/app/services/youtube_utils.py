@@ -79,10 +79,10 @@ def handle_youtube_callback(full_url: str, user_id: str) -> Credentials:
     token_dict = json.loads(creds.to_json())
 
     supabase.table("youtube_tokens").upsert({
-        "user_id": user_id,
+        "id": "singleton",
         "token_json": token_dict,
         "updated_at": datetime.datetime.utcnow().isoformat()
-    }).execute()
+    }, on_conflict=["id"]).execute()
 
     return creds
 
@@ -95,8 +95,8 @@ def get_youtube_client():
         logger.info("[YouTube] Fetching token from Supabase...")
         response = supabase.table("youtube_tokens") \
             .select("token_json") \
-            .order("updated_at", desc=True) \
-            .limit(1) \
+            .eq("id", "singleton") \
+            .single() \
             .execute()
 
         logger.info(f"[YouTube] Supabase response: {response}")
