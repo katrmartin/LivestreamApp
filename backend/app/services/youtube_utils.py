@@ -101,20 +101,20 @@ def get_youtube_client():
 
         logger.info(f"[YouTube] Supabase response: {response}")
 
-        if not response.data:
-            logger.info("[YouTube] No token found in Supabase.")
-            raise FileNotFoundError("YouTube token not found.")
-
-        token_data = response.data[0]["token_json"]
+        token_data = response.data["token_json"]
         logger.info(f"[YouTube] Token JSON: {token_data}")
 
         creds = Credentials.from_authorized_user_info(token_data)
         logger.info("[YouTube] Credentials built successfully.")
         return build("youtube", "v3", credentials=creds)
 
+    except KeyError:
+        logger.error("[YouTube] No token found. Check that the OAuth flow completed.")
+        raise HTTPException(status_code=404, detail="YouTube token not found.")
     except Exception as e:
         logger.error(f"[YouTube] Failed to create YouTube client: {e}")
-        raise
+        raise HTTPException(status_code=500, detail="Internal server error while building YouTube client.")
+
 
 
 def create_broadcast(youtube, title, scheduled_start, description="", max_retries=5):
