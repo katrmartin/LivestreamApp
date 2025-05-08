@@ -89,6 +89,9 @@ const AdminPage = () => {
     setTitle(broadcast.title);
     setDate(localDate);
     setTime(localTime);
+    setOpponent(broadcast.opponent || '');
+    setTeamColor(broadcast.teamColor || '#000000');
+    setLocation(broadcast.location || '');
   };
 
   const handleSave = async (e) => {
