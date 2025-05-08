@@ -1,9 +1,4 @@
-/* General Mobile Adjustments */
 @media (max-width: 768px) {
-  /* Admin Page */
-  .admin-page {
-    padding: 15px;
-  }
 
   .scheduled-broadcasts,
   .edit-broadcast,
@@ -61,16 +56,37 @@
   .no-stream-message {
     width: 90%;
     padding: 20px;
+    font-size: 1rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
   }
 
-  /* Login Page */
   .login-container h1 {
-    font-size: 12vw;
+    font-size: 2rem !important; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container h1 {
+    font-size: 1.8rem !important; 
   }
 }
 
 @media (max-width: 600px) {
-  /* More compressed settings for smaller phones */
   nav ul {
     flex-direction: column;
     gap: 10px;
@@ -92,74 +108,141 @@
   }
 }
 
-
-/* Hamburger button */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: white;
-  cursor: pointer;
-}
-
-/* Mobile Nav */
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .hero-nav {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav-user-controls {
-    margin-top: 10px;
-    flex-direction: column;
-  }
-}
-
 @media (max-width: 768px) {
   .hero-content {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    margin-top: 10px;
+    flex-direction: column !important;
+    align-items: center !important; 
+    justify-content: flex-start !important;
+    text-align: center !important;
     gap: 20px;
+    width: 100%; 
   }
 
   .hero-left-text {
-    margin: 0;
-    text-align: center;
+    margin-top: 200px !important; 
+    margin-bottom: 10px !important;
+    margin-left: 0 !important; 
+    text-align: center !important;
+    width: 100% !important; 
+    display: flex;
+    flex-direction: column;
+    align-items: center !important
   }
 
   .hero-right-image {
-    margin: 0;
+    margin: 0 !important;
   }
 
-  .model-wrapper {
-    width: 300px;
-    height: auto;
-    margin-bottom: 20px;
+   .model-wrapper {
+    margin: 10px 0; 
+    width: 250px;
+    height: 200px;
   }
 
+  
   .hero-right-image model-viewer,
   .hero-right-image img {
-    width: 50%;
-    max-width: 100px;
+    width: 100% !important;
+    max-width: 300px;
     height: auto;
   }
+}
+
+@media (max-width: 768px) {
+  .hero-new {
+    margin: 0;
+    padding: 0;
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+}
+
+
+@media (max-width: 768px) {
+  .hero-box {
+    background-color: #860037;
+    width: 95%;
+    min-height: 95vh;
+    border-radius: 30px;
+    margin: 20px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+  }
+  
+
+  .admin-page,
+  .stream-container,
+  .upcoming-banner {
+    width: 100%;
+    max-width: 500px; 
+    margin: 20px auto; 
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .score-controls {
+    align-items: center;
+    text-align: center;
+  }
+
+  .team-inputs {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .team-inputs input {
+    width: 90%; 
+    max-width: 300px; 
+    margin: 0 auto;
+  }
+
+  .score-buttons {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .score-buttons button {
+    width: 90%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-right-image model-viewer,
+  .hero-right-image img {
+    width: 200px;
+    height: 200px;
+    max-width: 100%;
+    object-fit: contain;
+    z-index: -1;
+  }
+
+  .hero-title-container h1 {
+    font-size: 12vw; 
+    margin-bottom: 1px; 
+  }
+}
+
+@media (max-width: 768px) {
+.stream-btn {
+  margin-top: 10px;
+  z-index: 2 !important;
+}
 }

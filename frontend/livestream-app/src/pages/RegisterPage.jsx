@@ -2,6 +2,9 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import '../styles/login.css';
+import '../styles/global.css';
+import '../styles/responsive.css';
 
 const RegisterPage = () => {
   const { login } = useContext(AuthContext);

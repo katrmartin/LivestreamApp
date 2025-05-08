@@ -70,29 +70,31 @@ const HomePage = () => {
     <>
       <header className="hero-new">
         <div className="hero-box">
-          <nav className="hero-nav">
-            <div className="nav-header">
-              <div className="nav-logo">
-                <Link to="/">Logo</Link>
-              </div>
-              <button className="hamburger-menu" onClick={toggleMenu}>
-                ☰
-              </button>
-            </div>
-            <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/stream">Stream</Link></li>
-              {user?.is_admin && (
-                <li><a href="/admin">Admin</a></li>
-              )}
-            </ul>
-            {user && (
-              <div className="nav-user-controls">
-                <span className="user-greeting">Hi {displayName}!</span>
-                <button className="logout-btn" onClick={handleLogout}>Log Out</button>
-              </div>
-            )}
-          </nav>
+        <nav className="hero-nav">
+
+  <button className="hamburger-menu" onClick={toggleMenu}>
+    ☰
+  </button>
+
+  <div className={`nav-content ${isMenuOpen ? 'open' : ''}`}>
+    <ul className="nav-links">
+      <li><Link to="/home">Home</Link></li>
+      <li><Link to="/stream">Stream</Link></li>
+      {user?.is_admin && <li><Link to="/admin">Admin</Link></li>}
+      <li>
+        <a href="https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0" target="_blank" rel="noopener noreferrer">Donate</a>
+      </li>
+    </ul>
+
+    {user && (
+      <div className="nav-user-controls">
+        <span className="user-greeting">Hi {displayName}!</span>
+        <button className="logout-btn" onClick={handleLogout}>Log Out</button>
+      </div>
+    )}
+  </div>
+</nav>
+
 
           <div className="hero-content">
   <div className="hero-left-text">
