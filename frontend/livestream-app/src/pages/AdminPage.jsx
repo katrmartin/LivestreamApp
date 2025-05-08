@@ -182,11 +182,20 @@ useEffect(() => {
   const fetchLiveBroadcast = async () => {
     try {
       const res = await fetch(`${API_BASE_URL}/broadcast/live`);
-      if (!res.ok) throw new Error('No live broadcast');
+      
+      if (res.status === 404) {
+        console.log('No live broadcast found.');
+        setCurrentBroadcastUrl(null);
+        return;
+      }
+
+      if (!res.ok) throw new Error('Server error while fetching live broadcast');
+
       const data = await res.json();
       setCurrentBroadcastUrl(data.url);
+
     } catch (err) {
-      console.log('No live broadcast');
+      console.error('Error fetching live broadcast:', err);
       setCurrentBroadcastUrl(null);
     }
   };
