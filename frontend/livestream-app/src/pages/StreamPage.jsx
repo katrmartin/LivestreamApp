@@ -60,7 +60,7 @@ const StreamPage = () => {
       .then((res) => res.text())
       .then((text) => {
         if (text.includes('youtube.com')) {
-          setUrl(text);
+          setUrl(null);
         } else {
           setError(text);
         }
