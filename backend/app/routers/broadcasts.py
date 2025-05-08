@@ -3,13 +3,13 @@ from fastapi.responses import PlainTextResponse
 from typing import List
 from datetime import date, time, datetime
 from app.models.broadcast_models import BroadcastRequest, BroadcastResponse
+from app.services.supabase_client import supabase
 from app.services.youtube_utils import (
     schedule_broadcast,
     update_broadcast as youtube_update_broadcast,
     delete_broadcast as youtube_delete_broadcast,
     get_current_broadcast
 )
-from app.routers.auth import supabase
 
 router = APIRouter()
 
@@ -172,7 +172,48 @@ def delete_broadcast(broadcast_id: str):
 @router.get("/live_url", response_class=PlainTextResponse)
 def get_live_url():
     try:
-        current = get_current_broadcast()
-        return current["url"] if current else "No livestream available."
+        response = supabase.table("broadcasts") \
+            .select("*") \
+            .eq("is_live", True) \
+            .order("date", desc=True) \
+            .limit(1) \
+            .execute()
+
+        if response.data:
+            return response.data[0]["url"]
+        return "No livestream available."
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Could not fetch the current livestream URL: {e}")
+
+# live url for stream page
+@router.post("/broadcast/{broadcast_id}/go_live")
+def go_live(broadcast_id: str):
+    try:
+        response = supabase.table("broadcasts").update({"is_live": True}).eq("id", broadcast_id).execute()
+        if not response.data:
+            raise HTTPException(status_code=500, detail="Failed to update is_live flag.")
+        return {"message": "Broadcast marked as live"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error marking broadcast as live: {e}")
+
+# live url for admin page
+@router.get("/broadcast/live", response_model=BroadcastResponse)
+def get_live_broadcast():
+    try:
+        response = supabase.table("broadcasts") \
+            .select("*") \
+            .eq("is_live", True) \
+            .order("date", desc=True) \
+            .limit(1) \
+            .execute()
+
+        if response.data:
+            return response.data[0]
+
+        raise HTTPException(status_code=404, detail="No live broadcast found.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Could not fetch live broadcast: {e}")
+
+
+
+

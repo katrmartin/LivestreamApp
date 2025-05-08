@@ -43,6 +43,17 @@ const AdminPage = () => {
     navigate('/login');
   };
 
+  const markAsLive = async (id) => {
+    try {
+      await fetch(`${API_BASE_URL}/broadcast/${id}/go_live`, {
+        method: 'POST',
+      });
+      alert('Broadcast marked as live!');
+    } catch (error) {
+      console.error('Failed to mark broadcast as live:', error);
+    }
+  };
+
   useEffect(() => {
     const ws = new WebSocket(`${WS_BASE_URL}/ws/score`);
     ws.onmessage = (event) => {
@@ -52,20 +63,27 @@ const AdminPage = () => {
       setHomeTeam(data.home_name);
       setAwayTeam(data.away_name);
     };
-    fetchLiveUrl();
     return () => { if (ws.readyState === WebSocket.OPEN) ws.close(); };
   }, []);
 
-  useEffect(() => { fetchBroadcasts(); }, []);
+  useEffect(() => {
+    fetchBroadcasts();
+  }, []);
 
-  const fetchLiveUrl = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/live_url`);
-      setCurrentBroadcastUrl(response.data);
-    } catch (err) {
-      console.error('Failed to fetch live URL:', err);
-    }
-  };
+  useEffect(() => {
+    const fetchLiveBroadcast = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/broadcast/live`);
+        if (!res.ok) throw new Error('No live broadcast');
+        const data = await res.json();
+        setCurrentBroadcastUrl(data.url);
+      } catch (err) {
+        console.log('No live broadcast');
+        setCurrentBroadcastUrl(null);
+      }
+    };
+    fetchLiveBroadcast();
+  }, []);
 
   const fetchBroadcasts = async () => {
     try {
@@ -159,32 +177,24 @@ const AdminPage = () => {
   return (
     <header className="hero-new">
       <div className="hero-box">
-      <nav className="hero-nav">
+        <nav className="hero-nav">
+          <button className="hamburger-menu" onClick={toggleMenu}>☰</button>
+          <div className={`nav-content ${isMenuOpen ? 'open' : ''}`}>
+            <ul className="nav-links">
+              <li><Link to="/home">Home</Link></li>
+              <li><Link to="/stream">Stream</Link></li>
+              {user?.is_admin && <li><Link to="/admin">Admin</Link></li>}
+              <li><a href="https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0" target="_blank" rel="noopener noreferrer">Donate</a></li>
+            </ul>
+            {user && (
+              <div className="nav-user-controls">
+                <span className="user-greeting">Hi {displayName}!</span>
+                <button className="logout-btn" onClick={handleLogout}>Log Out</button>
+              </div>
+            )}
+          </div>
+        </nav>
 
-  <button className="hamburger-menu" onClick={toggleMenu}>
-    ☰
-  </button>
-
-  <div className={`nav-content ${isMenuOpen ? 'open' : ''}`}>
-    <ul className="nav-links">
-      <li><Link to="/home">Home</Link></li>
-      <li><Link to="/stream">Stream</Link></li>
-      {user?.is_admin && <li><Link to="/admin">Admin</Link></li>}
-      <li>
-        <a href="https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0" target="_blank" rel="noopener noreferrer">Donate</a>
-      </li>
-    </ul>
-
-    {user && (
-      <div className="nav-user-controls">
-        <span className="user-greeting">Hi {displayName}!</span>
-        <button className="logout-btn" onClick={handleLogout}>Log Out</button>
-      </div>
-    )}
-  </div>
-</nav>
-
-        {/* --- Admin Page Content Below --- */}
         <div className="admin-page">
           {isEditing ? (
             <div className="edit-broadcast">
@@ -227,6 +237,11 @@ const AdminPage = () => {
                       })()}
                     </div>
                     <button className="btn edit-btn" onClick={() => handleEdit(broadcast)}>Edit</button>
+                    {!broadcast.is_live && (
+                      <button className="btn go-live-btn" onClick={() => markAsLive(broadcast.id)}>
+                        Broadcast is Live!
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>

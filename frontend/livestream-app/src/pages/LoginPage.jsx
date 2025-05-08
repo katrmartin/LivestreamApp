@@ -1,75 +1,65 @@
 import React, { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
 import { AuthContext } from '../AuthContext';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import '../styles/login.css';
 import '../styles/global.css';
 import '../styles/responsive.css';
 
 const LoginPage = () => {
-  const { user, login, loading } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  console.log('LoginPage loaded, pathname:', location.pathname);
-  console.log('AuthContext:', { user, loading });
-
 
   useEffect(() => {
-    if (!loading && user && location.pathname === '/login') {
+    if (!loading && user) {
       navigate('/home');
     }
-  }, [user, loading, navigate, location.pathname]);
-  
+  }, [user, loading, navigate]);
 
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post('http://localhost:8000/login', { email, password });
-      const token = res.data.access_token;
-
-      const me = await axios.get('http://localhost:8000/me', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      login(token, me.data);
-    } catch (error) {
-      setErr('Invalid credentials');
-    }
-  };
+  if (loading) return <div>Loading...</div>;
 
   const handleGoogleLogin = async () => {
     const { error, url } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'http://localhost:3000/oauth/callback'
-      }
+        redirectTo: 'http://localhost:3000/oauth/callback',
+      },
     });
-  
+
     if (error) {
-      setErr('Google login failed');
       console.error('Google login error:', error.message);
-      return;
-    }
-  
-    if (url) {
+      setErr('Google login failed.');
+    } else if (url) {
       window.location.assign(url);
     }
   };
-  
-  
-  
+
+  const handleEmailLogin = async (e) => {
+    e.preventDefault();
+    setErr('');
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error('Login failed:', error.message);
+      setErr('Invalid email or password.');
+    }
+  };
+
   return (
     <div className="login-container">
       <h1>STAMPEDESTREAM</h1>
       <h2>Login</h2>
       {err && <p className="error">{err}</p>}
-      <form onSubmit={handleLogin}>
+      
+      <form onSubmit={handleEmailLogin}>
         <input
           type="email"
           value={email}
@@ -86,7 +76,10 @@ const LoginPage = () => {
         />
         <button className="btn" type="submit">Log In</button>
       </form>
+
       <p>Don't have an account? <Link to="/register">Sign up</Link></p>
+
+      <p><Link to="/forgot-password">Forgot your password?</Link></p>
 
       <div style={{ marginTop: '20px' }}>
         <p>or</p>

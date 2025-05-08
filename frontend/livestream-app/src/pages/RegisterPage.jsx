@@ -1,62 +1,97 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import '../styles/login.css';
 import '../styles/global.css';
 import '../styles/responsive.css';
 
 const RegisterPage = () => {
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
-
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setErr('');
+    setSuccess('');
 
-    try {
-      // Register user
-      await axios.post('http://localhost:8000/register', {
-        email,
-        password,
-        name
-      });
+    const { error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+      options: {
+        data: { full_name: name },
+        redirectTo: 'http://localhost:3000/oauth/callback',
+      },
+    });
 
-      // Log in immediately after registration
-      const res = await axios.post('http://localhost:8000/login', {
-        email,
-        password
-      });
+    if (error) {
+      console.error('Registration failed:', error.message);
+      setErr(error.message);
+    } else {
+      setSuccess('Check your email to confirm your account!');
+    }
+  };
 
-      const token = res.data.access_token;
+  const handleGoogleRegister = async () => {
+    const { error, url } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'http://localhost:3000/oauth/callback',
+      },
+    });
 
-      const me = await axios.get('http://localhost:8000/me', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      login(token, me.data);
-      navigate('/home');
-    } catch (error) {
-      console.error(error);
-      setErr(error.response?.data?.detail || 'Registration failed');
+    if (error) {
+      console.error('Google signup/login error:', error.message);
+      setErr('Google login failed.');
+    } else if (url) {
+      window.location.assign(url);
     }
   };
 
   return (
     <div className="login-container">
-      <h2>Register</h2>
+      <h1>STAMPEDESTREAM</h1>
+      <h2>Create Account</h2>
       {err && <p className="error">{err}</p>}
+      {success && <p className="success">{success}</p>}
+
       <form onSubmit={handleRegister}>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Full Name" required />
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-        <button className="btn" type="submit">Create Account</button>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Full Name"
+          required
+        />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+        <button className="btn" type="submit">Sign Up</button>
       </form>
+
+      <p>Already have an account? <Link to="/login">Log in</Link></p>
+
+      <div style={{ marginTop: '20px' }}>
+        <p>or</p>
+        <button className="btn" onClick={handleGoogleRegister}>
+          Sign up or log in with Google
+        </button>
+      </div>
     </div>
   );
 };
