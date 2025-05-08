@@ -183,7 +183,7 @@
     margin-top: 10px;
   }
   
-  .edit-btn:hover, .go-live-btn:hover {
+  .edit-btn:hover {
     background-color: #333;
   }
 
