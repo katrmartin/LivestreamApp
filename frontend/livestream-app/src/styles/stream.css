@@ -1,4 +1,4 @@
-.hero-box {
+/* .hero-box {
   position: relative; 
   display: flex;
   justify-content: center;
@@ -11,7 +11,7 @@
   margin: 20px auto;
   padding: 20px;
   box-sizing: border-box;
-}
+} */
 
 .stream-chat-layout {
     display: flex;
