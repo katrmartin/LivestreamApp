@@ -33,7 +33,19 @@
   }
 
   .stream-video {
+    position: relative;
     width: 100%;
+    max-width: 800px;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+  }
+  
+  .stream-video iframe{
+    position: absolute;
+    top: -50%;
+    left: -25%;
+    width: 150%;
+    height: 100%;
   }
 
   .chat-box {
@@ -46,11 +58,6 @@
     align-self: center;
   }
 
-  .score-bug {
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px 20px;
-  }
 
   .upcoming-banner,
   .no-stream-message {
