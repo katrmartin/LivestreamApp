@@ -246,3 +246,13 @@
   z-index: 2 !important;
 }
 }
+
+@media (max-width: 768px) {
+  .score-bug {
+    flex-direction: row !important; /* Force horizontal layout */
+    gap: 20px;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+  }
+}
