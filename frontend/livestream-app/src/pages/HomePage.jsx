@@ -61,28 +61,41 @@ const HomePage = () => {
     setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <>
       <header className="hero-new">
         <div className="hero-box">
-          <nav className="hero-nav">
-            <ul className="nav-left">
-              <li><Link to="/">Home</Link></li>
-            </ul>
-            <ul className="nav-right">
-              <li><Link to="/stream">Stream</Link></li>
-              {user?.is_admin && (
-                <li><a href="/admin">Admin</a></li>
-              )}
-            </ul>
+        <nav className="hero-nav">
 
-            {user && (
-              <div className="nav-user-controls">
-                <span className="user-greeting">Hi {displayName}!</span>
-                <button className="logout-btn" onClick={handleLogout}>Log Out</button>
-              </div>
-            )}
-          </nav>
+  <button className="hamburger-menu" onClick={toggleMenu}>
+    ☰
+  </button>
+
+  <div className={`nav-content ${isMenuOpen ? 'open' : ''}`}>
+    <ul className="nav-links">
+      <li><Link to="/home">Home</Link></li>
+      <li><Link to="/stream">Stream</Link></li>
+      {user?.is_admin && <li><Link to="/admin">Admin</Link></li>}
+      <li>
+        <a href="https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0" target="_blank" rel="noopener noreferrer">Donate</a>
+      </li>
+    </ul>
+
+    {user && (
+      <div className="nav-user-controls">
+        <span className="user-greeting">Hi {displayName}!</span>
+        <button className="logout-btn" onClick={handleLogout}>Log Out</button>
+      </div>
+    )}
+  </div>
+</nav>
+
 
           <div className="hero-content">
   <div className="hero-left-text">

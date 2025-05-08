@@ -24,7 +24,8 @@
     width: 100%;
     max-width: 350px;
   }
-  
+
+  .login-container input[type="text"],
   .login-container input[type="email"],
   .login-container input[type="password"] {
     background: transparent;
@@ -37,6 +38,7 @@
     transition: border-color 0.3s ease;
   }
   
+  .login-container input[type="text"]::placeholder,
   .login-container input[type="email"]::placeholder,
   .login-container input[type="password"]::placeholder {
     color: #face00;
