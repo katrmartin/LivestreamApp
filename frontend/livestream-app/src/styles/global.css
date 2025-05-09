@@ -1,86 +1,176 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #000000;
-    min-height: 100vh;
-    text-align: center;
-    color: white;
-  }
-  
-  nav {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #000000;
+  min-height: 100vh;
+  text-align: center;
+  color: white;
+}
+
+.hero-box {
+  position: relative; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #860037;
+  width: 95%;
+  min-height: 95vh;
+  border-radius: 30px;
+  margin: 20px auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.hamburger-menu {
+  display: none; /* 🔥 hidden by default */
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* NAV BAR */
+.hero-nav {
+  background-color: black;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    background: #000000;
-    padding: 10px;
-    color: white;
-  }
-  
-  nav .logo {
-    font-family: Arial;
-    font-size: 2em;
-    font-weight: bold;
-  }
-  
-  nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-  }
-  
-  nav ul li {
-    margin: 0 15px;
-  }
-  
-  nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-family: Arial;
-    font-size: 1.2em;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
-    border-bottom: 2px solid transparent;
-    padding-bottom: 4px;
-  }
-  
-  nav ul li a:hover {
-    color: #face00;
-    border-bottom: 2px solid #face00;
-  }
-  
-  .nav-user-controls {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-  }
-  
-  .user-greeting {
-    margin-right: 15px;
-    font-weight: bold;
-  }
-  
-  .logout-btn {
-    background-color: #860037;
-    color: white;
-    border: none;
     padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .logout-btn:hover {
-    background-color: #610028;
-  }
-  
-  footer {
-    background: #000000;
-    color: white;
-    padding: 10px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    height: 50px;
+    box-sizing: border-box;
+}
+
+
+/* NAV CONTENT (links + user controls) */
+.nav-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* NAV LINKS */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.nav-links li a:hover {
+  color: #face00;
+}
+
+/* USER CONTROLS */
+.nav-user-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* LOGOUT BUTTON */
+.logout-btn {
+  background: transparent;
+  border: 2px solid gold;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: gold;
+  color: white;
+}
+
+/* --- MOBILE VERSION --- */
+@media (max-width: 768px) {
+  .hero-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: black;
+    padding: 10px 20px;
+    border-radius: 20px;
     position: relative;
-    bottom: 0;
+    height: 60px;
+    width: 90%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+
+  .hamburger-menu {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    color: white;
+    cursor: pointer;
+    justify-content: flex-end;
+  }
+
+  /* NAV CONTENT */
+  .nav-content {
+    position: absolute;
+    top: 75%;
+    left: 0;
     width: 100%;
+    background: black;
+    border-radius: 0 0 20px 20px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: 
+      transform 0.5s ease,
+      opacity 0.05s ease,
+      visibility 0.05s ease;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .nav-content {
+    overflow: hidden;
+    display: block;
   }
   
+  
+  .nav-content.open {
+    opacity: 1;
+    visibility: visible;
+    transform: scaleY(1);
+    z-index: 2;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .nav-user-controls {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  }
+}

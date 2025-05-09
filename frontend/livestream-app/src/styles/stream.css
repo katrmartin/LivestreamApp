@@ -1,16 +1,17 @@
-.hero-box {
+/* .hero-box {
+  position: relative; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background-color: #860037;
   width: 95%;
   min-height: 95vh;
   border-radius: 30px;
   margin: 20px auto;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
   box-sizing: border-box;
-  position: relative;
-}
+} */
 
 .stream-chat-layout {
     display: flex;
@@ -26,13 +27,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
     flex-grow: 1;
     text-align: center;
     width: 100%;
-    padding: 0px 0;
-    position: relative; 
-    z-index: 1; 
+    padding: 20px;
+    min-height: 100%; 
+    box-sizing: border-box;
   }
   
   
@@ -52,7 +53,7 @@
     transition: width 0.3s ease, height 0.3s ease, padding 0.3s ease;
     overflow: hidden;
     border-radius: 15px;
-    z-index: 2; /* Make sure it layers above stream */
+    z-index: 2; 
   }
     
   .chat-header {
@@ -134,16 +135,23 @@
   }
 
   .upcoming-banner {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 25px 30px;
-    margin: 40px auto; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
     border-radius: 20px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-    border-left: 10px solid #610028; /* default fallback color */
-    width: 100%;
-    max-width: 800px;
-    text-align: left;
-    animation: fadeInSlide 1s ease forwards;
+    border-left: 10px solid #610028;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10; 
   }
   
   .upcoming-banner h2 {

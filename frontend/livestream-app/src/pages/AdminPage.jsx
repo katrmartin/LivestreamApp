@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/admin.css';
 import '../styles/global.css';
 import '../styles/responsive.css';
 import { AuthContext } from '../AuthContext';
 import { getUTCPartsFromLocal, getLocalInputsFromUTC } from '../utils/time_utils';
-import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 const WS_BASE_URL = process.env.REACT_APP_WS_URL;
 
 const AdminPage = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [broadcasts, setBroadcasts] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingBroadcast, setEditingBroadcast] = useState(null);
@@ -22,16 +22,76 @@ const AdminPage = () => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [error, setError] = useState('');
   const [opponent, setOpponent] = useState('');
   const [teamColor, setTeamColor] = useState('#610028');
   const [location, setLocation] = useState('');
-
+  const [error, setError] = useState('');
   const [home, setHome] = useState(0);
   const [away, setAway] = useState(0);
   const [homeTeam, setHomeTeam] = useState('Home');
   const [awayTeam, setAwayTeam] = useState('Away');
   const [currentBroadcastUrl, setCurrentBroadcastUrl] = useState('');
+
+  const displayName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+  const markAsLive = async (id) => {
+    try {
+      await fetch(`${API_BASE_URL}/broadcast/${id}/go_live`, {
+        method: 'POST',
+      });
+      alert('Broadcast marked as live!');
+      // Optionally reload broadcasts
+    } catch (error) {
+      console.error('Failed to mark broadcast as live:', error);
+    }
+  };
+
+  const markAsDone = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to end this broadcast? This will remove it from the platform.");
+    if (confirmed) {
+      await handleDelete(id);
+      alert('Broadcast marked as done!');
+    }
+  };
+
+  const handleConnectYouTube = () => {
+    // Open the backend's /youtube/auth endpoint
+    window.location.href = `${API_BASE_URL}/youtube/auth`;
+  };
+
+  useEffect(() => {
+    const fetchLiveBroadcast = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/broadcast/live`);
+        
+        if (res.status === 404) {
+          console.log('No live broadcast found.');
+          setCurrentBroadcastUrl(null);
+          return;
+        }
+
+        if (!res.ok) throw new Error('Server error while fetching live broadcast');
+
+        const data = await res.json();
+        setCurrentBroadcastUrl(data.url);
+
+      } catch (err) {
+        console.error('Error fetching live broadcast:', err);
+        setCurrentBroadcastUrl(null);
+      }
+    };
+
+    fetchLiveBroadcast();
+  }, []);
 
   useEffect(() => {
     const ws = new WebSocket(`${WS_BASE_URL}/ws/score`);
@@ -42,21 +102,12 @@ const AdminPage = () => {
       setHomeTeam(data.home_name);
       setAwayTeam(data.away_name);
     };
-    ws.onclose = () => console.log('WebSocket closed');
-    fetchLiveUrl();
     return () => { if (ws.readyState === WebSocket.OPEN) ws.close(); };
   }, []);
 
-  useEffect(() => { fetchBroadcasts(); }, []);
-
-  const fetchLiveUrl = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/live_url`);
-      setCurrentBroadcastUrl(response.data);
-    } catch (err) {
-      console.error('Failed to fetch live URL:', err);
-    }
-  };
+  useEffect(() => {
+    fetchBroadcasts();
+  }, []);
 
   const fetchBroadcasts = async () => {
     try {
@@ -150,77 +201,24 @@ const AdminPage = () => {
     }
   };
 
-  const displayName = user?.user_metadata?.name || user?.email?.split('@')[0] || 'User';
-
-  const markAsLive = async (id) => {
-  try {
-    await fetch(`${API_BASE_URL}/broadcast/${id}/go_live`, {
-      method: 'POST',
-    });
-    alert('Broadcast marked as live!');
-    // Optionally reload broadcasts
-  } catch (error) {
-    console.error('Failed to mark broadcast as live:', error);
-  }
-};
-
-  const markAsDone = async (id) => {
-    const confirmed = window.confirm("Are you sure you want to end this broadcast? This will remove it from the platform.");
-    if (confirmed) {
-      await handleDelete(id);
-      alert('Broadcast marked as done!');
-    }
-  };
-
-
-const handleConnectYouTube = () => {
-  // Open the backend's /youtube/auth endpoint
-  window.location.href = `${API_BASE_URL}/youtube/auth`;
-};
-
-useEffect(() => {
-  const fetchLiveBroadcast = async () => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/broadcast/live`);
-      
-      if (res.status === 404) {
-        console.log('No live broadcast found.');
-        setCurrentBroadcastUrl(null);
-        return;
-      }
-
-      if (!res.ok) throw new Error('Server error while fetching live broadcast');
-
-      const data = await res.json();
-      setCurrentBroadcastUrl(data.url);
-
-    } catch (err) {
-      console.error('Error fetching live broadcast:', err);
-      setCurrentBroadcastUrl(null);
-    }
-  };
-
-  fetchLiveBroadcast();
-}, []);
-
-
   return (
     <header className="hero-new">
       <div className="hero-box">
         <nav className="hero-nav">
-          <ul className="nav-left">
-            <li><Link to="/home">Home</Link></li>
-          </ul>
-          <ul className="nav-right">
-            <li><Link to="/stream">Stream</Link></li>
-            {user?.is_admin && <li><Link to="/admin">Admin</Link></li>}
-          </ul>
-          <div className="nav-user-controls">
-            <span className="user-greeting">Hi {displayName}!</span>
-            <button className="logout-btn" onClick={() => {
-              localStorage.removeItem('token');
-              window.location.href = '/login';
-            }}>Log Out</button>
+          <button className="hamburger-menu" onClick={toggleMenu}>☰</button>
+          <div className={`nav-content ${isMenuOpen ? 'open' : ''}`}>
+            <ul className="nav-links">
+              <li><Link to="/home">Home</Link></li>
+              <li><Link to="/stream">Stream</Link></li>
+              {user?.is_admin && <li><Link to="/admin">Admin</Link></li>}
+              <li><a href="https://engage.supportingcmu.org/give/627210/#!/donation/checkout?recurring=0" target="_blank" rel="noopener noreferrer">Donate</a></li>
+            </ul>
+            {user && (
+              <div className="nav-user-controls">
+                <span className="user-greeting">Hi {displayName}!</span>
+                <button className="logout-btn" onClick={handleLogout}>Log Out</button>
+              </div>
+            )}
           </div>
         </nav>
 
@@ -294,20 +292,11 @@ useEffect(() => {
               <div className="current-broadcast">
                 <h2>Current Broadcast</h2>
                 <div className="broadcast-preview">
-                  <div className="embed-preview">
-                    {currentBroadcastUrl ? (
-                      <iframe
-                        title="Live Stream"
-                        width="100%"
-                        height="200"
-                        src={currentBroadcastUrl}
-                        frameBorder="0"
-                        allowFullScreen
-                      />
-                    ) : (
-                      <div className="placeholder">No active broadcast</div>
-                    )}
-                  </div>
+                  {currentBroadcastUrl ? (
+                    <iframe title="Live Stream" width="100%" height="200" src={currentBroadcastUrl} frameBorder="0" allowFullScreen />
+                  ) : (
+                    <div className="placeholder">No active broadcast</div>
+                  )}
                 </div>
               </div>
 
@@ -325,9 +314,9 @@ useEffect(() => {
                   <button onClick={() => updateScore('away', -1)}>-1 {awayTeam}</button>
                 </div>
                 <button className="btn reset-btn" onClick={() => {
-  updateScore('home', -home);
-  updateScore('away', -away);
-}}>Reset Scores</button>
+                  updateScore('home', -home);
+                  updateScore('away', -away);
+                }}>Reset Scores</button>
               </div>
             </>
           )}
@@ -351,98 +340,3 @@ useEffect(() => {
 };
 
 export default AdminPage;
-
-// import React, { useState, useEffect, useContext } from 'react';
-// import '../styles.css';
-// import { AuthContext } from '../AuthContext';
-
-// const AdminPage = () => {
-//   const { user } = useContext(AuthContext);
-//   const [broadcasts, setBroadcasts] = useState([]);
-//   const [formData, setFormData] = useState({
-//     date: '',
-//     time: '',
-//     location: '',
-//     opponent: '',
-//     url: '',
-//     team_color: '',
-//   });
-//   const [showDonateButton, setShowDonateButton] = useState(true);
-
-//   useEffect(() => {
-//     fetch('http://localhost:8000/broadcasts')
-//       .then((res) => res.json())
-//       .then((data) => setBroadcasts(data))
-//       .catch((err) => console.error('Error fetching broadcasts:', err));
-//   }, []);
-
-//   const handleChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     fetch('http://localhost:8000/broadcasts', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify(formData),
-//     })
-//       .then((res) => res.json())
-//       .then((data) => {
-//         setBroadcasts([...broadcasts, data]);
-//         setFormData({ date: '', time: '', location: '', opponent: '', url: '', team_color: '' });
-//       })
-//       .catch((err) => console.error('Error creating broadcast:', err));
-//   };
-
-//   return (
-//     <header className="hero-new">
-//       <div className="hero-box">
-//         <nav className="hero-nav">
-//           <ul className="nav-left">
-//             <li><a href="/home">Home</a></li>
-//           </ul>
-//           <ul className="nav-right">
-//             <li><a href="/stream">Stream</a></li>
-//             {user?.is_admin && <li><a href="/admin">Admin</a></li>}
-//           </ul>
-//           {user && (
-//             <div className="nav-user-controls">
-//               <span className="user-greeting">Hi {user.user_metadata?.name || user.email}!</span>
-//               <button className="logout-btn" onClick={() => {
-//                 localStorage.removeItem('token');
-//                 window.location.href = '/login';
-//               }}>
-//                 Log Out
-//               </button>
-//             </div>
-//           )}
-//         </nav>
-
-//         <div className="admin-container">
-//           <h2>Admin Panel</h2>
-//           <form className="admin-form" onSubmit={handleSubmit}>
-//             <input type="date" name="date" value={formData.date} onChange={handleChange} placeholder="Date" required />
-//             <input type="time" name="time" value={formData.time} onChange={handleChange} placeholder="Time" required />
-//             <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="Location" required />
-//             <input type="text" name="opponent" value={formData.opponent} onChange={handleChange} placeholder="Opponent" required />
-//             <input type="text" name="url" value={formData.url} onChange={handleChange} placeholder="Livestream URL" required />
-//             <input type="text" name="team_color" value={formData.team_color} onChange={handleChange} placeholder="Team Color" />
-//             <button type="submit" className="btn">Create Broadcast</button>
-//           </form>
-
-//           <h3>Upcoming Broadcasts</h3>
-//           <ul className="broadcast-list">
-//             {broadcasts.map((b) => (
-//               <li key={b.id}>
-//                 {b.date} @ {b.time} vs {b.opponent} — {b.location}
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// };
-
-// export default AdminPage;
