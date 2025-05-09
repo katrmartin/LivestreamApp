@@ -5,7 +5,7 @@ import '../styles/admin.css';
 import '../styles/global.css';
 import '../styles/responsive.css';
 import { AuthContext } from '../AuthContext';
-import { getUTCPartsFromLocal, getLocalInputsFromUTC } from '../utils/time_utils';
+import { getUTCPartsFromLocal, getLocalInputsFromUTC, formatUTCForDisplay } from '../utils/time_utils';
 
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 const WS_BASE_URL = process.env.REACT_APP_WS_URL;
@@ -259,10 +259,7 @@ const AdminPage = () => {
                   <div key={broadcast.id} className="broadcast-item">
                     <div className="broadcast-info">
                       <h3>{broadcast.title}</h3>
-                      {(() => {
-                        const localDate = new Date(`${broadcast.date}T${broadcast.time}Z`);
-                        return <p>{localDate.toLocaleString()} (your time)</p>;
-                      })()}
+                      <p>{formatUTCForDisplay(broadcast.date, broadcast.time)} (your time)</p>
                     </div>
                     <button className="btn edit-btn" onClick={() => handleEdit(broadcast)}>Edit</button>
 

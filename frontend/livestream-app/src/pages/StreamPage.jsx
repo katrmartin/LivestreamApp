@@ -5,6 +5,7 @@ import '../styles/donation.css';
 import '../styles/global.css';
 import '../styles/responsive.css';
 import { AuthContext } from '../AuthContext';
+import { formatUTCForDisplay } from '../utils/time_utils';
 
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 const WS_BASE_URL = process.env.REACT_APP_WS_URL;
@@ -44,18 +45,11 @@ const StreamPage = () => {
   };
 
   const formatDateTime = (dateStr, timeStr) => {
-    const fullDate = new Date(`${dateStr}T${timeStr}`);
-    const month = (fullDate.getMonth() + 1).toString().padStart(2, '0');
-    const day = fullDate.getDate().toString().padStart(2, '0');
-    const year = fullDate.getFullYear();
-    let hours = fullDate.getHours();
-    const minutes = fullDate.getMinutes().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12 || 12;
-    const formattedTime = `${hours}:${minutes} ${ampm}`;
+    const formattedDateTime = formatUTCForDisplay(dateStr, timeStr);
+    const [datePart, timePart] = formattedDateTime.split(', ');
     return {
-      formattedDate: `${month}/${day}/${year}`,
-      formattedTime
+      formattedDate: datePart,
+      formattedTime: timePart
     };
   };
 
