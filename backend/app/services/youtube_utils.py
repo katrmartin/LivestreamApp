@@ -22,20 +22,6 @@ SCOPES = [
     "openid"
 ]
 
-'''
-def authenticate_youtube():
-    """Authenticate and return the YouTube API client."""
-    creds = None
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
-    if not creds or not creds.valid:
-        flow = InstalledAppFlow.from_client_secrets_file(settings.YT_CLIENT_SECRETS_PATH, SCOPES)
-        creds = flow.run_local_server(port=5000, access_type='offline', prompt='consent')
-        with open("token.json", "w") as token:
-            token.write(creds.to_json())
-    return build("youtube", "v3", credentials=creds)
-'''
-
 def ensure_client_secrets_file():
     if not os.path.exists("client_secrets.json"):
         secrets = os.getenv("GOOGLE_CLIENT_SECRETS")
