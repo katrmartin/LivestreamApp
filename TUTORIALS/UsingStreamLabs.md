@@ -16,7 +16,7 @@
     ![alt text](tutorialImages/image-13.png)
 9. Once you are logged into Streamlabs, follow the step-by-step tutorial provided by the app.
 10. To create, edit, and delete broadcasts, follow this guide: 
-[Create, Edit, and Remove Broadcasts Guide](../Create,Edit,RemoveBroadcasts.md)
+[Create, Edit, and Remove Broadcasts Guide](./Create,Edit,RemoveBroadcasts.md)
 
 ## 🟢 When You Are Ready to Start Streaming:
 11. Make sure Orientation Lock is Disabled on your device's settings. 
