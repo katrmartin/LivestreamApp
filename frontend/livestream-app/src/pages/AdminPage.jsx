@@ -259,7 +259,10 @@ const AdminPage = () => {
                   <div key={broadcast.id} className="broadcast-item">
                     <div className="broadcast-info">
                       <h3>{broadcast.title}</h3>
-                      <p>{formatUTCForDisplay(broadcast.date, broadcast.time)} (your time)</p>
+                      {(() => {
+                        const localDate = new Date(`${broadcast.date}T${broadcast.time}Z`);
+                        return <p>{localDate.toLocaleString()} (your time)</p>;
+                      })()}
                     </div>
                     <button className="btn edit-btn" onClick={() => handleEdit(broadcast)}>Edit</button>
 
