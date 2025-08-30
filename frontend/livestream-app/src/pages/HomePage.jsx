@@ -145,7 +145,7 @@ const HomePage = () => {
       title: 'Replay the Glory',
       description: 'Every match tells a story. Rewatch past battles and feel the adrenaline of every try, tackle, and victory.',
       buttonText: 'Watch on YouTube',
-      buttonLink: 'https://www.youtube.com/@CMUMavericks',
+      buttonLink: 'https://www.youtube.com/@mackenzielewis1290',
     },
     {
       image: '/images/IMG_2455.jpg',
