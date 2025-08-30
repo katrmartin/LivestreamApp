@@ -1,0 +1,4 @@
+[build]
+base = "frontend"          # run commands in the frontend folder
+command = "npm run build"  # uses frontend/package.json scripts
+publish = "frontend/build" # your existing publish path
